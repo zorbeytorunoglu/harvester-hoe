@@ -1,7 +1,6 @@
 package com.zorbeytorunoglu.harvester_hoe.util
 
 import com.zorbeytorunoglu.harvester_hoe.Core
-import com.zorbeytorunoglu.harvester_hoe.config.asItemStack
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
@@ -20,6 +19,6 @@ fun ItemStack.isHoe(): Boolean =
 
 fun Player.giveHoe() {
     inventory.addItem(
-        Core.config.customHoeConfig.asItemStack()
+        Core.mainConfigManager.get().customHoeConfig.asItemStack()
     )
 }

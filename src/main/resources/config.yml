@@ -9,7 +9,3 @@ custom-hoe:
     - '&cnice lore'
   # just a secret string to identify the hoe
   namespaced-key: "harvesterHoe"
-  enhancements:
-    speed-boost:
-      duration: MAX # MAX or some second
-      level: 1

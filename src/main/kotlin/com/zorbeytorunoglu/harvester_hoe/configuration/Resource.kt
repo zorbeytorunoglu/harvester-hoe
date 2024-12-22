@@ -1,4 +1,4 @@
-package com.zorbeytorunoglu.harvester_hoe.config
+package com.zorbeytorunoglu.harvester_hoe.configuration
 
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.Plugin

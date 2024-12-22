@@ -1,11 +1,15 @@
 package com.zorbeytorunoglu.harvester_hoe
 
-import com.zorbeytorunoglu.harvester_hoe.config.Config
-import com.zorbeytorunoglu.harvester_hoe.config.EnhancementsConfig
-import com.zorbeytorunoglu.harvester_hoe.config.Resource
-import com.zorbeytorunoglu.harvester_hoe.config.loadConfig
-import com.zorbeytorunoglu.harvester_hoe.config.loadEnhancementsConfig
+import com.zorbeytorunoglu.harvester_hoe.command.commands.HarvesterHoeCommand
+import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.EnhancementsConfigManager
+import com.zorbeytorunoglu.harvester_hoe.configuration.main_config.MainConfigManager
+import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerDataManager
+import com.zorbeytorunoglu.harvester_hoe.enhancement.EnhancementManager
+import com.zorbeytorunoglu.harvester_hoe.enhancement.HasteEnhancement
+import com.zorbeytorunoglu.harvester_hoe.enhancement.SpeedBoostEnhancement
 import org.bukkit.NamespacedKey
+import org.bukkit.command.CommandExecutor
+import org.bukkit.command.TabCompleter
 
 object Core {
 
@@ -14,22 +18,56 @@ object Core {
     lateinit var namespacedKey: NamespacedKey
         private set
 
-    lateinit var config: Config
+    lateinit var mainConfigManager: MainConfigManager
         private set
 
-    lateinit var enhancementsConfig: EnhancementsConfig
+    lateinit var enhancementsConfigManager: EnhancementsConfigManager
         private set
 
-    fun init(plugin: HarvesterHoe) {
+    lateinit var playerDataManager: PlayerDataManager
+        private set
+
+    lateinit var enhancementManager: EnhancementManager
+        private set
+
+    internal fun init(plugin: HarvesterHoe) {
         this.plugin = plugin
 
         namespacedKey = NamespacedKey(plugin, "harvester_hoe")
-        config = Resource(plugin, "config.yml").loadConfig()
-        enhancementsConfig = Resource(plugin, "enhancements.yml").loadEnhancementsConfig()
+        mainConfigManager = MainConfigManager(plugin).also { it.reload() }
+        enhancementsConfigManager = EnhancementsConfigManager(plugin).also { it.reload() }
+        playerDataManager = PlayerDataManager(plugin).also { it.load() }
+
+        enhancementManager = EnhancementManager(plugin).also {
+            it.registerEnhancements(
+                listOf(
+                    SpeedBoostEnhancement(),
+                    HasteEnhancement()
+                ).filter { enhancement -> enhancement.config.enabled == true }
+            )
+        }
+
+        plugin.registerCommand()
+
+    }
+
+    private fun HarvesterHoe.registerCommand() {
+
+        val mainCommand = HarvesterHoeCommand()
+
+        getCommand("harvesterhoe")?.apply {
+            setExecutor(CommandExecutor { sender, command, label, args ->
+                mainCommand.handleExecute(sender, args)
+                true
+            })
+            tabCompleter = TabCompleter { sender, command, label, args ->
+                mainCommand.handleTabCompletion(sender, args)
+            }
+        }
     }
 
 }
 
-fun initCore(plugin: HarvesterHoe) {
+internal fun initCore(plugin: HarvesterHoe) {
     Core.init(plugin)
 }

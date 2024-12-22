@@ -22,8 +22,20 @@ class EnhancementManager(
         )
     }
 
+    fun getEnabledEnhancements(): List<Enhancement> = enhancements.values.filter { it.config.enabled }
+
+    fun getEnhancement(id: String): Enhancement? = enhancements[id]
+
+    fun getEnhancementByName(name: String): Enhancement? = enhancements.values.find { it.name == name }
+
+    fun getEnhancements(): List<Enhancement> = enhancements.values.toList()
+
     fun registerEnhancement(enhancement: Enhancement) {
         enhancements[enhancement.id] = enhancement
+    }
+
+    fun registerEnhancements(enhancements: List<Enhancement>) {
+        enhancements.forEach { registerEnhancement(it) }
     }
 
     fun dispatchEvent(event: HoeEvent) {

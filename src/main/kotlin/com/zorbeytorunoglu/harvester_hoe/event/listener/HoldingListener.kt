@@ -8,8 +8,6 @@ import com.zorbeytorunoglu.harvester_hoe.util.isHoe
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerMoveEvent
-import org.bukkit.potion.PotionEffect
-import org.bukkit.potion.PotionEffectType
 
 class HoldingListener(
     private val enhancementManager: EnhancementManager
@@ -24,7 +22,7 @@ class HoldingListener(
         val player = event.player
         val item = player.inventory.itemInMainHand
 
-        val allHoesApply = Core.config.applyToAllHoes
+        val allHoesApply = Core.mainConfigManager.get().applyToAllHoes
 
         fun processHold(holding: Boolean) {
             if (holding) {

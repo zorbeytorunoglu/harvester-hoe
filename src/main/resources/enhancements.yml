@@ -1,0 +1,6 @@
+speed-boost:
+  name: Speed Boost
+  description: Gives you speed boost!
+  enabled: true
+  duration: MAX # MAX or some second
+  level: 1

@@ -1,18 +1,18 @@
 package com.zorbeytorunoglu.harvester_hoe.enhancement
 
 import com.zorbeytorunoglu.harvester_hoe.Core
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.SpeedBoostConfig
+import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.HasteConfig
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
-private const val ENHANCEMENT_ID = "speed_boost"
+private const val ENHANCEMENT_ID = "haste"
 
-class SpeedBoostEnhancement: Enhancement {
+class HasteEnhancement: Enhancement {
 
     override val id: String
         get() = ENHANCEMENT_ID
-    override val config: SpeedBoostConfig
-        get() = Core.enhancementsConfigManager.get().speedBoostConfig
+    override val config: HasteConfig
+        get() = Core.enhancementsConfigManager.get().hasteConfig
     override val name: String
         get() = config.name
     override val description: String
@@ -21,6 +21,7 @@ class SpeedBoostEnhancement: Enhancement {
     override fun canHandle(event: HoeEvent): Boolean =
         when (event) {
             is HoeEvent.OnHold -> isEnabledForPlayer(event.player)
+            is HoeEvent.OnStoppedHolding -> isEnabledForPlayer(event.player)
             else -> false
         }
 
@@ -31,11 +32,11 @@ class SpeedBoostEnhancement: Enhancement {
                 val duration = config.duration
 
                 event.player.addPotionEffect(
-                    PotionEffect(PotionEffectType.SPEED, duration, level)
+                    PotionEffect(PotionEffectType.FAST_DIGGING, duration, level)
                 )
             }
             is HoeEvent.OnStoppedHolding -> {
-                event.player.removePotionEffect(PotionEffectType.SPEED)
+                event.player.removePotionEffect(PotionEffectType.FAST_DIGGING)
             }
             else -> Unit
         }

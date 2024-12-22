@@ -4,3 +4,27 @@ api-version: 1.13
 author: zorbeytorunoglu
 website: zorbeytorunoglu.com
 main: com.zorbeytorunoglu.harvester_hoe.HarvesterHoe
+
+commands:
+  harvesterhoe:
+    description: Main command for HarvesterHoe plugin
+    aliases:
+      - hh
+
+permissions:
+  harvesterhoe.*:
+    description: Access to all
+    children:
+      harvesterhoe.enhancement.*: true
+      harvesterhoe.hoe.*: true
+  harvesterhoe.enhancement.*:
+    description: Access to all enhancement commands
+    children:
+      harvesterhoe.enhancement.give: true
+      harvesterhoe.enhancement.list: true
+      harvesterhoe.enhancement.upgrade: true
+      harvesterhoe.enhancement.downgrade: true
+  harvesterhoe.hoe.*:
+    description: Access to all hoe commands
+    children:
+      harvesterhoe.hoe.give: true
