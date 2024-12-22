@@ -1,0 +1,15 @@
+apply-to-all-hoes: true
+# if apply-to-all-hoes is false, below item will be given on command
+harvest-blocks:
+  - SUGAR_CANE
+custom-hoe:
+  material: DIAMOND_HOE
+  name: Nice Hoe
+  lore:
+    - '&cnice lore'
+  # just a secret string to identify the hoe
+  namespaced-key: "harvesterHoe"
+  enhancements:
+    speed-boost:
+      duration: MAX # MAX or some second
+      level: 1

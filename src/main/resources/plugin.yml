@@ -1,0 +1,6 @@
+name: HarvesterHoe
+version: 0.0.1
+api-version: 1.13
+author: zorbeytorunoglu
+website: zorbeytorunoglu.com
+main: com.zorbeytorunoglu.harvester_hoe.HarvesterHoe
