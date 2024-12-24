@@ -2,28 +2,35 @@ package com.zorbeytorunoglu.harvester_hoe.configuration.player_data
 
 import com.zorbeytorunoglu.harvester_hoe.configuration.DataPersistence
 import com.zorbeytorunoglu.harvester_hoe.configuration.Resource
-import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerData
 
 class PlayerDataPersistence: DataPersistence<PlayerData> {
     override fun load(resource: Resource): Map<String, PlayerData> {
+        resource.load()
+
         val data = mutableMapOf<String, PlayerData>()
 
         for (uuid in resource.getKeys(false)) {
-            val harvestedBlocks = resource.getConfigurationSection("$uuid.harvestedBlocks")
+            val harvestedBlocks = resource.getConfigurationSection("$uuid.harvested-blocks")
                 ?.getValues(false)
                 ?.mapValues { (_, value) -> (value as? Number)?.toInt() ?: 0 }
                 ?: mapOf()
 
-            val upgrades = resource.getConfigurationSection("$uuid.upgrades")
+            val upgrades = resource.getConfigurationSection("$uuid.enhancements")
                 ?.getKeys(false)
-                ?.associateWith { upgradeId ->
+                ?.associateWith { enhancementId ->
                     PlayerEnhancementConfig(
-                        enabled = resource.getBoolean("$uuid.upgrades.$upgradeId.enabled", false),
-                        level = resource.getInt("$uuid.upgrades.$upgradeId.level", 1)
+                        enabled = resource.getBoolean("$uuid.enhancements.$enhancementId.enabled", false),
+                        tier = resource.getInt("$uuid.enhancements.$enhancementId.tier", 1)
                     )
                 } ?: mapOf()
 
-            data[uuid] = PlayerData(harvestedBlocks, upgrades)
+            val token = resource.getInt("$uuid.token", 0)
+
+            data[uuid] = PlayerData(
+                harvestedBlocks = harvestedBlocks,
+                enhancements = upgrades,
+                token = token
+            )
         }
 
         return data
@@ -32,12 +39,13 @@ class PlayerDataPersistence: DataPersistence<PlayerData> {
     override fun save(resource: Resource, data: Map<String, PlayerData>) {
         data.forEach { (uuid, playerData) ->
             playerData.harvestedBlocks.forEach { (block, count) ->
-                resource.set("$uuid.harvestedBlocks.$block", count)
+                resource.set("$uuid.harvested-blocks.$block", count)
             }
-            playerData.upgrades.forEach { (upgradeId, config) ->
-                resource.set("$uuid.upgrades.$upgradeId.enabled", config.enabled)
-                resource.set("$uuid.upgrades.$upgradeId.level", config.level)
+            playerData.enhancements.forEach { (enhancementId, config) ->
+                resource.set("$uuid.enhancement.$enhancementId.enabled", config.enabled)
+                resource.set("$uuid.enhancement.$enhancementId.tier", config.tier)
             }
+            playerData.token.let { resource.set("$uuid.token", it) }
         }
         resource.save()
     }

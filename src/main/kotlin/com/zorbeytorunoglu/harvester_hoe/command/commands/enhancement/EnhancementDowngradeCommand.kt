@@ -7,13 +7,11 @@ import com.zorbeytorunoglu.harvester_hoe.util.replaceEnhancement
 import com.zorbeytorunoglu.harvester_hoe.util.replacePlayerName
 import org.bukkit.command.CommandSender
 
-internal class EnhancementGiveCommand: BaseCommand() {
+internal class EnhancementDowngradeCommand: BaseCommand() {
 
-    override val name: String
-        get() = "give"
+    override val name: String = "downgrade"
 
-    override val permission: String?
-        get() = "harvesterhoe.enhancement.give"
+    override val permission: String = "harvesterhoe.enhancement.downgrade"
 
     override fun execute(sender: CommandSender, args: Array<String>): Boolean {
         if (args.size < 2) return true
@@ -23,28 +21,35 @@ internal class EnhancementGiveCommand: BaseCommand() {
             return true
         }
 
-        val enhancementId = args.getOrNull(1)
-            .takeIf { Core.enhancementManager.getEnhancements().map { enh -> enh.id }.contains(it) } ?: run {
-                return false
-        }
-
-        if (Core.services.enhancementService.getEnhancements(player.uniqueId.toString()).contains(enhancementId)) {
-            sender.sendMessage(messages.playerAlreadyHaveEnhancement)
+        val enhancementId = args.getOrNull(1) ?: run {
+            sender.sendMessage(messages.invalidEnhancementId)
             return true
         }
 
-        val level = args.getOrNull(2)?.toIntOrNull() ?: 1
+        val playerEnhancements = Core.services.enhancementService.getEnhancements(player.uniqueId.toString())
 
-        Core.services.enhancementService.giveEnhancement(player.uniqueId.toString(), enhancementId, level)
+        if (!playerEnhancements.contains(enhancementId)) {
+            sender.sendMessage(messages.playerDontHaveEnhancement)
+            return true
+        }
+
+        val playerTier = Core.services.enhancementService.getEnhancementLevel(player, enhancementId)
+
+        if (playerTier <= 1) {
+            sender.sendMessage(messages.noLesserTier)
+            return true
+        }
+
+        Core.services.enhancementService.downgradeEnhancement(player.uniqueId.toString(), enhancementId)
 
         sender.sendMessage(
-            messages.enhancementGiven
-                .replaceEnhancement(enhancementId)
+            messages.playersEnhancementDowngraded
                 .replacePlayerName(player.name)
+                .replaceEnhancement(enhancementId)
+                .replace("%tier%", "${playerTier - 1}")
         )
 
         return true
-
     }
 
     override fun tabComplete(sender: CommandSender, args: Array<String>): List<String> {
@@ -55,9 +60,6 @@ internal class EnhancementGiveCommand: BaseCommand() {
             2 -> Core.enhancementManager.getEnabledEnhancements()
                 .filter { it.id.startsWith(args[1], ignoreCase = true) }
                 .map { it.id }
-            3 -> listOf(
-                "1", "2", "3", "4", "5"
-            )
             else -> emptyList()
         }
     }

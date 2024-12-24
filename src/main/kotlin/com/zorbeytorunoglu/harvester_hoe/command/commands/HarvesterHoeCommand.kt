@@ -1,8 +1,13 @@
 package com.zorbeytorunoglu.harvester_hoe.command.commands
 
+import com.zorbeytorunoglu.harvester_hoe.Core
+import com.zorbeytorunoglu.harvester_hoe.HarvesterHoe
 import com.zorbeytorunoglu.harvester_hoe.command.BaseCommand
 import com.zorbeytorunoglu.harvester_hoe.command.commands.enhancement.EnhancementCommand
+import com.zorbeytorunoglu.harvester_hoe.command.commands.token.TokenCommand
+import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.command.TabCompleter
 
 internal class HarvesterHoeCommand: BaseCommand() {
 
@@ -12,6 +17,7 @@ internal class HarvesterHoeCommand: BaseCommand() {
 
     init {
         subCommands["enhancement"] = EnhancementCommand()
+        subCommands["token"] = TokenCommand()
     }
 
     override fun execute(sender: CommandSender, args: Array<String>): Boolean {
@@ -35,6 +41,21 @@ internal class HarvesterHoeCommand: BaseCommand() {
                 .filter { it.startsWith(args[0], ignoreCase = true) }
             else -> subCommands[args[0]]?.handleTabCompletion(sender, args.drop(1).toTypedArray())
                 ?: emptyList()
+        }
+    }
+
+}
+
+internal fun Core.registerMainCommand(plugin: HarvesterHoe) {
+    val mainCommand = HarvesterHoeCommand()
+
+    plugin.getCommand("harvesterhoe")?.apply {
+        setExecutor(CommandExecutor { sender, command, label, args ->
+            mainCommand.handleExecute(sender, args)
+            true
+        })
+        tabCompleter = TabCompleter { sender, command, label, args ->
+            mainCommand.handleTabCompletion(sender, args)
         }
     }
 }

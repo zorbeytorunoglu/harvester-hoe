@@ -10,12 +10,12 @@ class MainConfigLoader: ConfigLoader<MainConfig> {
     override fun load(resource: Resource): MainConfig {
         return MainConfig(
             applyToAllHoes = resource.getBoolean("applyToAllHoes", true),
-            harvestBlocks = resource.getStringList("harvestBlocks")
+            harvestBlocks = resource.getStringList("harvest-blocks")
                 .mapNotNull { material ->
-                    runCatching { Material.valueOf(material.uppercase()) }.getOrNull()
+                    runCatching { Material.valueOf(material.uppercase(Locale.US)) }.getOrNull()
                 },
             customHoeConfig = CustomHoeConfig(
-                name = resource.getString("customHoe.name") ?: "Custom Hoe",
+                name = resource.getString("custom-hoe.name") ?: "Custom Hoe",
                 lore = resource.getStringList("customHoe.lore").map { it.colorHex },
                 material = resource.getString("customHoe.material")?.let {
                     Material.valueOf(
@@ -24,7 +24,7 @@ class MainConfigLoader: ConfigLoader<MainConfig> {
                         )
                     )
                 } ?: Material.DIAMOND_HOE,
-                namespacedKey = resource.getString("customHoe.namespacedKey") ?: "harvester_hoe"
+                namespacedKey = resource.getString("customHoe.namespaced-key") ?: "harvester_hoe"
             )
         )
     }

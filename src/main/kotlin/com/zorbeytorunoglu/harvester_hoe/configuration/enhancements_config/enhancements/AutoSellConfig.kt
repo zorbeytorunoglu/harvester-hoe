@@ -1,15 +1,11 @@
 package com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements
 
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.EnhancementConfig
+import org.bukkit.Material
 
-data class HasteConfig(
+data class AutoSellConfig(
     override val enabled: Boolean,
     val name: String,
     val description: String,
-    val tiers: Map<Int, HasteTier>
+    val priceList: Map<Material, Double>
 ): EnhancementConfig
-
-data class HasteTier(
-    val duration: Int,
-    val level: Int
-)

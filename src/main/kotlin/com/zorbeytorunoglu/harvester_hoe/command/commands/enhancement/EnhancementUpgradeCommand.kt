@@ -7,13 +7,10 @@ import com.zorbeytorunoglu.harvester_hoe.util.replaceEnhancement
 import com.zorbeytorunoglu.harvester_hoe.util.replacePlayerName
 import org.bukkit.command.CommandSender
 
-internal class EnhancementGiveCommand: BaseCommand() {
+internal class EnhancementUpgradeCommand: BaseCommand() {
 
-    override val name: String
-        get() = "give"
-
-    override val permission: String?
-        get() = "harvesterhoe.enhancement.give"
+    override val name: String = "upgrade"
+    override val permission: String = "harvesterhoe.enhancement.upgrade"
 
     override fun execute(sender: CommandSender, args: Array<String>): Boolean {
         if (args.size < 2) return true
@@ -23,24 +20,37 @@ internal class EnhancementGiveCommand: BaseCommand() {
             return true
         }
 
-        val enhancementId = args.getOrNull(1)
-            .takeIf { Core.enhancementManager.getEnhancements().map { enh -> enh.id }.contains(it) } ?: run {
-                return false
-        }
-
-        if (Core.services.enhancementService.getEnhancements(player.uniqueId.toString()).contains(enhancementId)) {
-            sender.sendMessage(messages.playerAlreadyHaveEnhancement)
+        val enhancementId = args.getOrNull(1) ?: run {
+            sender.sendMessage(messages.invalidEnhancementId)
             return true
         }
 
-        val level = args.getOrNull(2)?.toIntOrNull() ?: 1
+        val playerEnhancements = Core.services.enhancementService.getEnhancements(player.uniqueId.toString())
 
-        Core.services.enhancementService.giveEnhancement(player.uniqueId.toString(), enhancementId, level)
+        if (!playerEnhancements.contains(enhancementId)) {
+            sender.sendMessage(messages.playerDontHaveEnhancement)
+            return true
+        }
+
+        val playerTier = Core.services.enhancementService.getEnhancementLevel(player, enhancementId)
+
+        val tierCount = Core.services.enhancementService.getEnhancementTierCount(enhancementId) ?: run {
+            sender.sendMessage(messages.invalidTierConfig)
+            return true
+        }
+
+        if (playerTier >= tierCount) {
+            sender.sendMessage(messages.noGreaterTier)
+            return true
+        }
+
+        Core.services.enhancementService.upgradeEnhancement(player.uniqueId.toString(), enhancementId)
 
         sender.sendMessage(
-            messages.enhancementGiven
-                .replaceEnhancement(enhancementId)
+            messages.playersEnhancementUpgraded
                 .replacePlayerName(player.name)
+                .replaceEnhancement(enhancementId)
+                .replace("%tier%", "${playerTier + 1}")
         )
 
         return true
@@ -55,9 +65,6 @@ internal class EnhancementGiveCommand: BaseCommand() {
             2 -> Core.enhancementManager.getEnabledEnhancements()
                 .filter { it.id.startsWith(args[1], ignoreCase = true) }
                 .map { it.id }
-            3 -> listOf(
-                "1", "2", "3", "4", "5"
-            )
             else -> emptyList()
         }
     }

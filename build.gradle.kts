@@ -12,12 +12,14 @@ repositories {
         name = "papermc"
         url = uri("https://repo.papermc.io/repository/maven-public/")
     }
+    maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
     shadow("org.jetbrains.kotlin:kotlin-stdlib:2.0.21")
     shadow("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
 }
 
 kotlin {

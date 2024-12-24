@@ -1,9 +1,13 @@
 package com.zorbeytorunoglu.harvester_hoe.command
 
+import com.zorbeytorunoglu.harvester_hoe.Core
+import com.zorbeytorunoglu.harvester_hoe.configuration.messages_config.Messages
 import com.zorbeytorunoglu.harvester_hoe.util.colorHex
 import org.bukkit.command.CommandSender
 
 internal abstract class BaseCommand: Command {
+
+    protected val messages: Messages = Core.messagesConfigManager.get()
 
     override val subCommands: MutableMap<String, Command> = mutableMapOf()
 

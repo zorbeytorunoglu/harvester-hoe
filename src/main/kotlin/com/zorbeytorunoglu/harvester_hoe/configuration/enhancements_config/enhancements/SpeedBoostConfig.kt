@@ -6,6 +6,10 @@ data class SpeedBoostConfig(
     override val enabled: Boolean,
     val name: String,
     val description: String,
+    val tiers: Map<Int, SpeedBoostTier>
+): EnhancementConfig
+
+data class SpeedBoostTier(
     val duration: Int,
     val level: Int
-): EnhancementConfig
+)

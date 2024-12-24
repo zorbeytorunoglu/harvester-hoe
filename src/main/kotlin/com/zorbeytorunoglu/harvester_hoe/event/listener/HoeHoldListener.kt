@@ -5,11 +5,12 @@ import com.zorbeytorunoglu.harvester_hoe.enhancement.EnhancementManager
 import com.zorbeytorunoglu.harvester_hoe.enhancement.HoeEvent
 import com.zorbeytorunoglu.harvester_hoe.util.isCustomHoe
 import com.zorbeytorunoglu.harvester_hoe.util.isHoe
+import com.zorbeytorunoglu.harvester_hoe.util.isHoldingHoe
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerMoveEvent
 
-class HoldingListener(
+class HoeHoldListener(
     private val enhancementManager: EnhancementManager
 ): Listener {
 
@@ -20,9 +21,6 @@ class HoldingListener(
 
         val uuid = event.player.uniqueId.toString()
         val player = event.player
-        val item = player.inventory.itemInMainHand
-
-        val allHoesApply = Core.mainConfigManager.get().applyToAllHoes
 
         fun processHold(holding: Boolean) {
             if (holding) {
@@ -38,9 +36,7 @@ class HoldingListener(
             }
         }
 
-        processHold(
-            if (allHoesApply) item.isHoe() else item.isCustomHoe()
-        )
+        processHold(event.player.isHoldingHoe())
 
     }
 }

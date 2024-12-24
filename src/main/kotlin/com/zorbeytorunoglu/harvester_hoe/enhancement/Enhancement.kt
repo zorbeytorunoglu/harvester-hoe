@@ -11,8 +11,10 @@ interface Enhancement {
     val description: String
 
     fun isEnabledForPlayer(player: Player): Boolean =
-        Core.playerDataManager.isEnhancementEnabled(player, id)
+        Core.playerDataManager.enhancementService.isEnhancementEnabled(player, id)
 
     fun canHandle(event: HoeEvent): Boolean
     fun handle(event: HoeEvent)
 }
+
+internal inline fun <T: HoeEvent> T.with(block: T.() -> Unit) { block() }

@@ -1,25 +1,24 @@
-package com.zorbeytorunoglu.harvester_hoe.command.commands.enhancement
+package com.zorbeytorunoglu.harvester_hoe.command.commands.token
 
 import com.zorbeytorunoglu.harvester_hoe.command.BaseCommand
 import org.bukkit.command.CommandSender
 
-internal class EnhancementCommand: BaseCommand() {
+internal class TokenCommand: BaseCommand() {
 
-    override val name: String = "enhancement"
-
-    override val permission: String = "harvesterhoe.enhancement"
+    override val name: String = "token"
+    override val permission: String = "harvesterhoe.token"
 
     init {
-        subCommands["give"] = EnhancementGiveCommand()
-        subCommands["list"] = EnhancementListCommand()
-        subCommands["take"] = EnhancementTakeCommand()
-        subCommands["upgrade"] = EnhancementUpgradeCommand()
-        subCommands["downgrade"] = EnhancementDowngradeCommand()
+        subCommands["add"] = TokenAddCommand()
+        subCommands["remove"] = TokenRemoveCommand()
+        subCommands["set"] = TokenSetCommand()
+        subCommands["check"] = TokenCheckCommand()
     }
 
     override fun execute(sender: CommandSender, args: Array<String>): Boolean {
         if (args.isEmpty()) {
-            sender.sendMessage("evet enhancement, subcommandlar: ${subCommands.keys}")
+            // todo: usage
+            sender.sendMessage("empty args")
             return true
         }
         val subCommand = subCommands[args[0]] ?: return false

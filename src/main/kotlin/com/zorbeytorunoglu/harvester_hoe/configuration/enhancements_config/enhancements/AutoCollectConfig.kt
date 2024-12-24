@@ -2,14 +2,8 @@ package com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enha
 
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.EnhancementConfig
 
-data class HasteConfig(
+data class AutoCollectConfig(
     override val enabled: Boolean,
     val name: String,
-    val description: String,
-    val tiers: Map<Int, HasteTier>
+    val description: String
 ): EnhancementConfig
-
-data class HasteTier(
-    val duration: Int,
-    val level: Int
-)

@@ -1,9 +1,10 @@
 package com.zorbeytorunoglu.harvester_hoe.util
 
 import org.bukkit.ChatColor
+import org.bukkit.entity.Player
 import java.util.regex.Pattern
 
-val String.colorHex get(): String {
+internal val String.colorHex get(): String {
     var message = this
     val pattern = Pattern.compile("#[a-fA-F0-9]{6}")
     var matcher = pattern.matcher(message)
@@ -23,3 +24,13 @@ val String.colorHex get(): String {
 fun String.color(colorCode: Char): String {
     return ChatColor.translateAlternateColorCodes(colorCode, this)
 }
+
+internal fun String.getPlayerOrNull(): Player? = org.bukkit.Bukkit.getPlayer(this)
+
+internal fun String.replaceAmount(amount: Int): String = this.replace("%amount%", amount.toString())
+
+internal fun String.replacePlayerName(playerName: String): String = this.replace("%player%", playerName)
+
+internal fun String.replaceToken(token: Int): String = this.replace("%token%", token.toString())
+
+internal fun String.replaceEnhancement(enhancement: String): String = this.replace("%enhancement%", enhancement)

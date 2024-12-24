@@ -1,6 +1,58 @@
 speed-boost:
+  enabled: true
   name: Speed Boost
   description: Gives you speed boost!
+  tiers:
+    1:
+      duration: 5
+      level: 1
+    2:
+      duration: MAX
+      level: 2
+haste:
   enabled: true
-  duration: MAX # MAX or some second
-  level: 1
+  name: Haste
+  description: Gives you haste
+  tiers:
+    1:
+      duration: 5
+      level: 1
+    2:
+      duration: MAX
+      level: 2
+auto-collect:
+  enabled: true
+  name: Auto Collect
+  description: Auto collects the harvests
+token-chance:
+  enabled: true
+  name: Token Chance
+  description: Gives you chance to earn token
+  message-enabled: true
+  message: "&aYou found a token!"
+  tiers:
+    1:
+      chance: 0.05
+    2:
+      chance: 0.09
+    3:
+      chance: 0.1
+auto-sell:
+  enabled: true
+  name: Auto Sell
+  description: Sells your harvests automatically
+  price-list:
+    SUGAR_CANE: 1.0
+backpack:
+  enabled: true
+  name: Backpack
+  description: Store all of your canes!
+  tiers:
+    1:
+      size: 100
+    2:
+      size: 200
+    3:
+      size: 500
+    4:
+      size: UNLIMITED

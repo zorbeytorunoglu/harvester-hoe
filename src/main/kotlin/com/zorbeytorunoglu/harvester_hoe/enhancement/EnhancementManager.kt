@@ -1,8 +1,9 @@
 package com.zorbeytorunoglu.harvester_hoe.enhancement
 
 import com.zorbeytorunoglu.harvester_hoe.HarvesterHoe
-import com.zorbeytorunoglu.harvester_hoe.event.listener.HarvestListener
-import com.zorbeytorunoglu.harvester_hoe.event.listener.HoldingListener
+import com.zorbeytorunoglu.harvester_hoe.event.listener.HarvestBreakListener
+import com.zorbeytorunoglu.harvester_hoe.event.listener.HarvestCollectListener
+import com.zorbeytorunoglu.harvester_hoe.event.listener.HoeHoldListener
 import org.bukkit.event.Listener
 
 class EnhancementManager(
@@ -17,8 +18,9 @@ class EnhancementManager(
 
     private fun registerEvents() {
         plugin.registerEvents(
-            HarvestListener(this),
-            HoldingListener(this)
+            HarvestBreakListener(this),
+            HoeHoldListener(this),
+            HarvestCollectListener(this)
         )
     }
 

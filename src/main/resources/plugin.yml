@@ -28,3 +28,9 @@ permissions:
     description: Access to all hoe commands
     children:
       harvesterhoe.hoe.give: true
+  harvesterhoe.token.*:
+    description: Access to all token commands
+    children:
+      harvesterhoe.token.add: true
+      harvesterhoe.token.remove: true
+      harvesterhoe.token.set: true

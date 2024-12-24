@@ -5,17 +5,23 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
-fun Player.isHoldingHoe(): Boolean =
-    inventory.itemInMainHand.itemMeta?.persistentDataContainer?.has(Core.namespacedKey, PersistentDataType.STRING) == true
+fun Player.isHoldingHoe(): Boolean = if (Core.mainConfigManager.get().applyToAllHoes) {
+        isHoldingHoe()
+    } else {
+        isHoldingCustomHoe()
+    }
+
+fun Player.isHoldingCustomHoe(): Boolean =
+    inventory.itemInMainHand.isCustomHoe()
 
 fun Player.isHoldingAnyHoe(): Boolean =
-    inventory.itemInMainHand.type.toString().endsWith("HOE")
+    inventory.itemInMainHand.isHoe()
 
 fun ItemStack.isCustomHoe(): Boolean =
     itemMeta?.persistentDataContainer?.has(Core.namespacedKey, PersistentDataType.STRING) == true
 
 fun ItemStack.isHoe(): Boolean =
-    type.toString().endsWith("HOE")
+    type.name.endsWith("HOE")
 
 fun Player.giveHoe() {
     inventory.addItem(

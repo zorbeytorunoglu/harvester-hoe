@@ -1,7 +1,9 @@
-package com.zorbeytorunoglu.harvester_hoe.enhancement
+package com.zorbeytorunoglu.harvester_hoe.enhancement.enhancements
 
 import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.SpeedBoostConfig
+import com.zorbeytorunoglu.harvester_hoe.enhancement.Enhancement
+import com.zorbeytorunoglu.harvester_hoe.enhancement.HoeEvent
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
@@ -21,17 +23,22 @@ class SpeedBoostEnhancement: Enhancement {
     override fun canHandle(event: HoeEvent): Boolean =
         when (event) {
             is HoeEvent.OnHold -> isEnabledForPlayer(event.player)
+            is HoeEvent.OnStoppedHolding -> isEnabledForPlayer(event.player)
             else -> false
         }
 
     override fun handle(event: HoeEvent) {
         when (event) {
             is HoeEvent.OnHold -> {
-                val level = config.level
-                val duration = config.duration
+
+                val playerTier = Core.services.enhancementService.getEnhancementLevel(
+                    event.player, ENHANCEMENT_ID
+                )
+
+                val tierConfig = config.tiers.getOrElse(playerTier) { return }
 
                 event.player.addPotionEffect(
-                    PotionEffect(PotionEffectType.SPEED, duration, level)
+                    PotionEffect(PotionEffectType.SPEED, tierConfig.duration, tierConfig.level)
                 )
             }
             is HoeEvent.OnStoppedHolding -> {
