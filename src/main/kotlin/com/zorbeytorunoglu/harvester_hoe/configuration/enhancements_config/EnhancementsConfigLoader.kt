@@ -17,19 +17,19 @@ class EnhancementsConfigLoader: ConfigLoader<EnhancementsConfig> {
     override fun load(resource: Resource): EnhancementsConfig {
         return EnhancementsConfig(
             speedBoostConfig = SpeedBoostConfig(
-                name = (resource.getString("speed-boost.name") ?: "Speed Boost").colorHex,
-                description = (resource.getString("speed-boost.description") ?: "Gives you speed boost!").colorHex,
-                enabled = resource.getBoolean("speed-boost.enabled", true),
-                tiers = resource.getConfigurationSection("speed-boost.tiers")
+                name = (resource.getString("speed_boost.name") ?: "Speed Boost").colorHex,
+                description = (resource.getString("speed_boost.description") ?: "Gives you speed boost!").colorHex,
+                enabled = resource.getBoolean("speed_boost.enabled", true),
+                tiers = resource.getConfigurationSection("speed_boost.tiers")
                     ?.getKeys(false)
                     ?.mapNotNull { tierKey ->
                         tierKey.toIntOrNull()?.let { tierNumber ->
                             tierNumber to SpeedBoostTier(
-                                duration = resource.getString("speed-boost.tiers.$tierKey.duration")
+                                duration = resource.getString("speed_boost.tiers.$tierKey.duration")
                                     ?.takeIf { it != "MAX" }
                                     ?.toIntOrNull()
                                     ?: Int.MAX_VALUE,
-                                level = resource.getInt("speed-boost.tiers.$tierKey.level", 1)
+                                level = resource.getInt("speed_boost.tiers.$tierKey.level", 1)
                             )
                         }
                     }?.toMap() ?: emptyMap()
@@ -53,33 +53,33 @@ class EnhancementsConfigLoader: ConfigLoader<EnhancementsConfig> {
                     }?.toMap() ?: emptyMap()
             ),
             autoCollectConfig = AutoCollectConfig(
-                enabled = resource.getBoolean("auto-collect.enabled", true),
-                name = (resource.getString("auto-collect.name") ?: "Auto Collect").colorHex,
-                description = (resource.getString("auto-collect.description") ?: "Automatically collects harvests!").colorHex
+                enabled = resource.getBoolean("auto_collect.enabled", true),
+                name = (resource.getString("auto_collect.name") ?: "Auto Collect").colorHex,
+                description = (resource.getString("auto_collect.description") ?: "Automatically collects harvests!").colorHex
             ),
             tokenChanceConfig = TokenChanceConfig(
-                enabled = resource.getBoolean("token-chance.enabled", true),
-                name = (resource.getString("token-chance.name") ?: "Token Chance").colorHex,
-                description = (resource.getString("token-chance.description") ?: "Gives you a chance to get tokens!").colorHex,
-                messageEnabled = resource.getBoolean("token-chance.message-enabled", true),
-                message = (resource.getString("token-chance.message") ?: "&aYou found a token!").colorHex,
-                tiers = resource.getConfigurationSection("token-chance.tiers")
+                enabled = resource.getBoolean("token_chance.enabled", true),
+                name = (resource.getString("token_chance.name") ?: "Token Chance").colorHex,
+                description = (resource.getString("token_chance.description") ?: "Gives you a chance to get tokens!").colorHex,
+                messageEnabled = resource.getBoolean("token_chance.message-enabled", true),
+                message = (resource.getString("token_chance.message") ?: "&aYou found a token!").colorHex,
+                tiers = resource.getConfigurationSection("token_chance.tiers")
                     ?.getKeys(false)
                     ?.mapNotNull { tierKey ->
                         tierKey.toIntOrNull()?.let { tierNumber ->
                             tierNumber to TokenChanceTier(
-                                chance = resource.getDouble("token-chance.tiers.$tierKey.chance", 0.0)
+                                chance = resource.getDouble("token_chance.tiers.$tierKey.chance", 0.0)
                             )
                         }
                     }?.toMap() ?: emptyMap()
             ),
             autoSellConfig = AutoSellConfig(
-                enabled = resource.getBoolean("auto-sell.enabled", true),
-                name = (resource.getString("auto-sell.name") ?: "Auto Sell").colorHex,
-                description = (resource.getString("auto-sell.description") ?: "Automatically sells items!").colorHex,
-                priceList = resource.getConfigurationSection("auto-sell.price-list")?.getKeys(false)
+                enabled = resource.getBoolean("auto_sell.enabled", true),
+                name = (resource.getString("auto_sell.name") ?: "Auto Sell").colorHex,
+                description = (resource.getString("auto_sell.description") ?: "Automatically sells items!").colorHex,
+                priceList = resource.getConfigurationSection("auto_sell.price-list")?.getKeys(false)
                     ?.mapNotNull { Material.valueOf(it) }
-                    ?.associateWith { resource.getDouble("auto-sell.price-list.$it", 0.0) } ?: emptyMap()
+                    ?.associateWith { resource.getDouble("auto_sell.price-list.$it", 0.0) } ?: emptyMap()
             ),
             enhancementTierCount = resource.getKeys(false).associateWith { enhId ->
                 resource.getConfigurationSection("$enhId.tiers")?.getKeys(false)?.size ?: 0

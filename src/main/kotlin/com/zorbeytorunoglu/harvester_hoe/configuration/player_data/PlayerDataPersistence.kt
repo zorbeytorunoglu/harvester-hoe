@@ -42,8 +42,8 @@ class PlayerDataPersistence: DataPersistence<PlayerData> {
                 resource.set("$uuid.harvested-blocks.$block", count)
             }
             playerData.enhancements.forEach { (enhancementId, config) ->
-                resource.set("$uuid.enhancement.$enhancementId.enabled", config.enabled)
-                resource.set("$uuid.enhancement.$enhancementId.tier", config.tier)
+                resource.set("$uuid.enhancements.$enhancementId.enabled", config.enabled)
+                resource.set("$uuid.enhancements.$enhancementId.tier", config.tier)
             }
             playerData.token.let { resource.set("$uuid.token", it) }
         }

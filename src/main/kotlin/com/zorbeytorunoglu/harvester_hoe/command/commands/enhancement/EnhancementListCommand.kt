@@ -2,6 +2,7 @@ package com.zorbeytorunoglu.harvester_hoe.command.commands.enhancement
 
 import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.command.BaseCommand
+import com.zorbeytorunoglu.harvester_hoe.util.colorHex
 import com.zorbeytorunoglu.harvester_hoe.util.getPlayerOrNull
 import com.zorbeytorunoglu.harvester_hoe.util.replacePlayerName
 import org.bukkit.command.CommandSender
@@ -27,7 +28,7 @@ internal class EnhancementListCommand: BaseCommand() {
             sender.sendMessage(messages.playerEnhancementList.replacePlayerName(player.name))
 
             Core.services.enhancementService.getEnhancements(player.uniqueId.toString()).map {
-                "&7- &6ID: ${it.key}&7, &eLevel: ${it.value}"
+                "&7- &6ID: ${it.key}&7, &eLevel: ${it.value.tier}".colorHex
             }.forEach { sender.sendMessage(it) }
 
             return true
@@ -37,7 +38,12 @@ internal class EnhancementListCommand: BaseCommand() {
     }
 
     override fun tabComplete(sender: CommandSender, args: Array<String>): List<String> {
-        return emptyList()
+        return when (args.size) {
+            1 -> sender.server.onlinePlayers
+                .map { it.name }
+                .filter { it.startsWith(args[0], ignoreCase = true) }
+            else -> emptyList()
+        }
     }
 
 }

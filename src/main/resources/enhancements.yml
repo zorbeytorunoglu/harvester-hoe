@@ -1,12 +1,12 @@
-speed-boost:
+speed_boost:
   enabled: true
   name: Speed Boost
   description: Gives you speed boost!
   tiers:
-    1:
-      duration: 5
+    '1':
+      duration: 500
       level: 1
-    2:
+    '2':
       duration: MAX
       level: 2
 haste:
@@ -14,30 +14,30 @@ haste:
   name: Haste
   description: Gives you haste
   tiers:
-    1:
+    '1':
       duration: 5
       level: 1
-    2:
+    '2':
       duration: MAX
       level: 2
-auto-collect:
+auto_collect:
   enabled: true
   name: Auto Collect
   description: Auto collects the harvests
-token-chance:
+token_chance:
   enabled: true
   name: Token Chance
   description: Gives you chance to earn token
   message-enabled: true
   message: "&aYou found a token!"
   tiers:
-    1:
+    '1':
       chance: 0.05
-    2:
+    '2':
       chance: 0.09
-    3:
+    '3':
       chance: 0.1
-auto-sell:
+auto_sell:
   enabled: true
   name: Auto Sell
   description: Sells your harvests automatically
@@ -48,11 +48,11 @@ backpack:
   name: Backpack
   description: Store all of your canes!
   tiers:
-    1:
+    '1':
       size: 100
-    2:
+    '2':
       size: 200
-    3:
+    '3':
       size: 500
-    4:
+    '4':
       size: UNLIMITED

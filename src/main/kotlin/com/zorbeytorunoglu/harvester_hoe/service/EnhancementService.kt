@@ -28,7 +28,8 @@ class EnhancementService(
     fun getEnhancementLevel(playerUuid: String, enhancementId: String): Int =
         playerDataManager.getPlayerData(playerUuid).enhancements[enhancementId]?.tier ?: 1
 
-    fun getEnhancements(playerUuid: String): Map<String, PlayerEnhancementConfig> = playerDataManager.getPlayerData(playerUuid).enhancements
+    fun getEnhancements(playerUuid: String): Map<String, PlayerEnhancementConfig> =
+        playerDataManager.getPlayerData(playerUuid).enhancements
 
     fun getEnabledEnhancements(playerUuid: String): List<String> = playerDataManager.getPlayerData(playerUuid).enhancements.filter { it.value.enabled }.keys.toList()
 
@@ -43,6 +44,7 @@ class EnhancementService(
         val currentData = playerDataManager.getPlayerData(playerUuid)
         val updatedEnhancements = currentData.enhancements.toMutableMap()
         updatedEnhancements[enhancementId] = PlayerEnhancementConfig(enabled = true, tier = level)
+        playerDataManager.updatePlayerData(playerUuid, currentData.copy(enhancements = updatedEnhancements))
     }
 
     fun getEnhancementTierCount(enhancementId: String): Int? =

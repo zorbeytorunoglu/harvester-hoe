@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
 fun Player.isHoldingHoe(): Boolean = if (Core.mainConfigManager.get().applyToAllHoes) {
-        isHoldingHoe()
+        isHoldingAnyHoe()
     } else {
         isHoldingCustomHoe()
     }
