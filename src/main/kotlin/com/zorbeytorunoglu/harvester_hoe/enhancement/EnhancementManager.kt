@@ -1,5 +1,6 @@
 package com.zorbeytorunoglu.harvester_hoe.enhancement
 
+import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.HarvesterHoe
 import com.zorbeytorunoglu.harvester_hoe.event.listener.HarvestBreakListener
 import com.zorbeytorunoglu.harvester_hoe.event.listener.HarvestCollectListener
@@ -46,6 +47,10 @@ class EnhancementManager(
             .forEach { it.handle(event) }
     }
 
+}
+
+internal fun dispatchEvent(hoeEvent: HoeEvent) {
+    Core.enhancementManager.dispatchEvent(event = hoeEvent)
 }
 
 private fun HarvesterHoe.registerEvents(

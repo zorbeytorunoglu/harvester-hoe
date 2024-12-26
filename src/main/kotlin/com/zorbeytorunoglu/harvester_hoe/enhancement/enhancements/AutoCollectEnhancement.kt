@@ -4,6 +4,7 @@ import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.AutoCollectConfig
 import com.zorbeytorunoglu.harvester_hoe.enhancement.Enhancement
 import com.zorbeytorunoglu.harvester_hoe.enhancement.HoeEvent
+import com.zorbeytorunoglu.harvester_hoe.enhancement.dispatchEvent
 import com.zorbeytorunoglu.harvester_hoe.enhancement.with
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -34,23 +35,24 @@ class AutoCollectEnhancement: Enhancement {
             ItemStack(type, items.sumOf { it.amount })
         }
 
-        val remainingDrops = mutableListOf<ItemStack>()
+        var leftovers = 0
         totalDrops.forEach { drop ->
-            val leftovers = event.player.inventory.addItem(drop)
-            remainingDrops.addAll(leftovers.values)
-        }
-
-        remainingDrops.forEach { item ->
-            event.block.world.dropItemNaturally(event.block.location, item)
+            leftovers = event.player.inventory.addItem(drop).size
+            dispatchEvent(
+                HoeEvent.OnBackpackStore(
+                    player = event.player,
+                    amount = leftovers
+                )
+            )
         }
 
         event.player.giveExp(event.event.expToDrop * (collectedBlocks.size + 1))
 
-        Core.enhancementManager.dispatchEvent(
+        dispatchEvent(
             HoeEvent.OnHarvestCollected(
                 event.player,
                 event.block.type,
-                totalDrops.size - remainingDrops.size
+                totalDrops.size - leftovers
             )
         )
 

@@ -4,8 +4,12 @@ import com.zorbeytorunoglu.harvester_hoe.configuration.Resource
 import com.zorbeytorunoglu.harvester_hoe.configuration.ConfigLoader
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.AutoCollectConfig
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.AutoSellConfig
+import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.BackpackConfig
+import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.BackpackTier
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.HasteConfig
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.HasteTier
+import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.KeyFinderConfig
+import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.KeyFinderTier
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.SpeedBoostConfig
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.SpeedBoostTier
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.TokenChanceConfig
@@ -83,7 +87,43 @@ class EnhancementsConfigLoader: ConfigLoader<EnhancementsConfig> {
             ),
             enhancementTierCount = resource.getKeys(false).associateWith { enhId ->
                 resource.getConfigurationSection("$enhId.tiers")?.getKeys(false)?.size ?: 0
-            }
+            },
+            backpackConfig = BackpackConfig(
+                enabled = resource.getBoolean("backpack.enabled", true),
+                name = (resource.getString("backpack.name") ?: "Auto Sell").colorHex,
+                description = (resource.getString("backpack.description") ?: "Automatically sells items!").colorHex,
+                tiers = resource.getConfigurationSection("token_chance.tiers")
+                    ?.getKeys(false)
+                    ?.mapNotNull { tierKey ->
+                        tierKey.toIntOrNull()?.let { tierNumber ->
+                            tierNumber to BackpackTier(
+                                size = resource.getString("backpack.tiers.$tierKey.size")
+                                    ?.takeIf { it != "MAX" }
+                                    ?.toIntOrNull()
+                                    ?: Int.MAX_VALUE
+                            )
+                        }
+                    }?.toMap() ?: emptyMap(),
+                messageEnabled = resource.getBoolean("backpack.message-enabled", true),
+                message = (resource.getString("backpack.message") ?: "&aYour backpack is full!").colorHex
+            ),
+            keyFinderConfig = KeyFinderConfig(
+                enabled = resource.getBoolean("key_finder.enabled", true),
+                name = (resource.getString("key_finder.name") ?: "Key Finder").colorHex,
+                description = (resource.getString("key_finder.description") ?: "Finds keys!").colorHex,
+                messageEnabled = resource.getBoolean("key_finder.message-enabled", true),
+                message = (resource.getString("key_finder.message") ?: "&aYou found a key!").colorHex,
+                tiers = resource.getConfigurationSection("token_chance.tiers")
+                    ?.getKeys(false)
+                    ?.mapNotNull { tierKey ->
+                        tierKey.toIntOrNull()?.let { tierNumber ->
+                            tierNumber to KeyFinderTier(
+                                chance = resource.getDouble("key_finder.tiers.$tierKey.chance", 0.0),
+                                command = resource.getString("key_finder.tiers.$tierKey.command") ?: ""
+                            )
+                        }
+                    }?.toMap() ?: emptyMap()
+            )
         )
     }
 }

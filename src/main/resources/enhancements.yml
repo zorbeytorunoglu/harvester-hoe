@@ -47,6 +47,8 @@ backpack:
   enabled: true
   name: Backpack
   description: Store all of your canes!
+  message-enabled: true
+  message: "&aYour backpack is full!"
   tiers:
     '1':
       size: 100
@@ -56,3 +58,16 @@ backpack:
       size: 500
     '4':
       size: UNLIMITED
+key_finder:
+  enabled: true
+  name: Key Finder
+  description: Chance to get keys from harvests
+  message-enabled: true
+  message: "&aYou found a key!"
+  tiers:
+    '1':
+      chance: 0.05
+      command: "key give SUPER_CHEST %player% 1" # your key giving command from CrazyCrates or some other plugin
+    '2':
+      chance: 0.1
+      command: "key give EXTREME_CHEST %player% 1"

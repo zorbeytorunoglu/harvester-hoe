@@ -12,4 +12,6 @@ class Services(core: Core) {
 
     val tokenService: TokenService = TokenService(core.playerDataManager)
 
+    val playerDataService: PlayerDataService = PlayerDataService(core.playerDataManager)
+
 }
