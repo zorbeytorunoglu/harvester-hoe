@@ -1,13 +1,13 @@
 package com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements
 
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.EnhancementConfig
+import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.TieredEnhancementConfig
 
 data class HasteConfig(
     override val enabled: Boolean,
-    val name: String,
-    val description: String,
-    val tiers: Map<Int, HasteTier>
-): EnhancementConfig
+    override val name: String,
+    override val description: String,
+    override val tiers: Map<Int, HasteTier>
+): TieredEnhancementConfig<HasteTier>
 
 data class HasteTier(
     val duration: Int,

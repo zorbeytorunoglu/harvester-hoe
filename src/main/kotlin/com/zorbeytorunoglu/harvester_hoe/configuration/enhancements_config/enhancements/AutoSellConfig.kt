@@ -5,7 +5,7 @@ import org.bukkit.Material
 
 data class AutoSellConfig(
     override val enabled: Boolean,
-    val name: String,
-    val description: String,
+    override val name: String,
+    override val description: String,
     val priceList: Map<Material, Double>
 ): EnhancementConfig

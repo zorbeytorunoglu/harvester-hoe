@@ -4,6 +4,6 @@ import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.Enhan
 
 data class AutoCollectConfig(
     override val enabled: Boolean,
-    val name: String,
-    val description: String
+    override val name: String,
+    override val description: String
 ): EnhancementConfig
