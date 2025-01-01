@@ -3,8 +3,10 @@ package com.zorbeytorunoglu.harvester_hoe.command.commands
 import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.HarvesterHoe
 import com.zorbeytorunoglu.harvester_hoe.command.BaseCommand
+import com.zorbeytorunoglu.harvester_hoe.command.commands.backpack.BackpackCommand
 import com.zorbeytorunoglu.harvester_hoe.command.commands.enhancement.EnhancementCommand
 import com.zorbeytorunoglu.harvester_hoe.command.commands.token.TokenCommand
+import com.zorbeytorunoglu.harvester_hoe.command.commands.xp.XpCommand
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
@@ -18,18 +20,14 @@ internal class HarvesterHoeCommand: BaseCommand() {
     init {
         subCommands["enhancement"] = EnhancementCommand()
         subCommands["token"] = TokenCommand()
+        subCommands["xp"] = XpCommand()
+        subCommands["backpack"] = BackpackCommand()
     }
 
     override fun execute(sender: CommandSender, args: Array<String>): Boolean {
-        if (args.isEmpty()) {
-            sender.sendMessage("Available commands: ${subCommands.keys.joinToString()}")
-            return true
-        }
+        if (args.isEmpty()) return true
 
-        val subCommand = subCommands[args[0]] ?: run {
-            sender.sendMessage("Available commands: ${subCommands.keys.joinToString()}")
-            return true
-        }
+        val subCommand = subCommands[args[0]] ?: run { return true }
 
         return subCommand.handleExecute(sender, args.drop(1).toTypedArray())
     }
