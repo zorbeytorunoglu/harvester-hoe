@@ -1,15 +1,16 @@
 package com.zorbeytorunoglu.harvester_hoe.enhancement.enhancements
 
 import com.zorbeytorunoglu.harvester_hoe.Core
+import com.zorbeytorunoglu.harvester_hoe.enhancement.TieredEnhancement
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.HasteConfig
-import com.zorbeytorunoglu.harvester_hoe.enhancement.Enhancement
-import com.zorbeytorunoglu.harvester_hoe.enhancement.HoeEvent
+import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.HasteTier
+import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
 private const val ENHANCEMENT_ID = "haste"
 
-class HasteEnhancement: Enhancement {
+class HasteEnhancement: TieredEnhancement<HasteTier, HasteConfig> {
 
     override val id: String
         get() = ENHANCEMENT_ID
@@ -19,6 +20,8 @@ class HasteEnhancement: Enhancement {
         get() = config.name
     override val description: String
         get() = config.description
+    override val tiers: Map<Int, HasteTier>
+        get() = config.tiers
 
     override fun canHandle(event: HoeEvent): Boolean =
         when (event) {
@@ -30,15 +33,9 @@ class HasteEnhancement: Enhancement {
     override fun handle(event: HoeEvent) {
         when (event) {
             is HoeEvent.OnHold -> {
-
-                val playerTier = Core.services.enhancementService.getEnhancementLevel(
-                    event.player, ENHANCEMENT_ID
-                )
-
-                val tierConfig = config.tiers.getOrElse(playerTier) { return }
-
+                val tier = getTier(event.player) ?: return
                 event.player.addPotionEffect(
-                    PotionEffect(PotionEffectType.FAST_DIGGING, tierConfig.duration, tierConfig.level)
+                    PotionEffect(PotionEffectType.FAST_DIGGING, tier.duration, tier.level)
                 )
             }
             is HoeEvent.OnStoppedHolding -> {
