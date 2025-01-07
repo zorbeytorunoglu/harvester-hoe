@@ -24,12 +24,12 @@ class PlayerDataPersistence: DataPersistence<PlayerData> {
                     )
                 } ?: mapOf()
 
-            val token = resource.getInt("$uuid.token", 0)
-
             data[uuid] = PlayerData(
                 harvestedBlocks = harvestedBlocks,
                 enhancements = upgrades,
-                token = token
+                harvestsInBackpack = resource.getInt("$uuid.harvests-in-backpack", 0),
+                token = resource.getInt("$uuid.token", 0),
+                xp = resource.getInt("$uuid.xp", 0)
             )
         }
 
@@ -38,14 +38,20 @@ class PlayerDataPersistence: DataPersistence<PlayerData> {
 
     override fun save(resource: Resource, data: Map<String, PlayerData>) {
         data.forEach { (uuid, playerData) ->
-            playerData.harvestedBlocks.forEach { (block, count) ->
-                resource.set("$uuid.harvested-blocks.$block", count)
+
+            playerData.run {
+                harvestedBlocks.forEach { (block, count) ->
+                    resource.set("$uuid.harvested-blocks.$block", count)
+                }
+                enhancements.forEach { (enhancementId, config) ->
+                    resource.set("$uuid.enhancements.$enhancementId.enabled", config.enabled)
+                    resource.set("$uuid.enhancements.$enhancementId.tier", config.tier)
+                }
+                resource.set("$uuid.harvests-in-backpack", harvestsInBackpack)
+                resource.set("$uuid.token", token)
+                resource.set("$uuid.xp", xp)
             }
-            playerData.enhancements.forEach { (enhancementId, config) ->
-                resource.set("$uuid.enhancements.$enhancementId.enabled", config.enabled)
-                resource.set("$uuid.enhancements.$enhancementId.tier", config.tier)
-            }
-            playerData.token.let { resource.set("$uuid.token", it) }
+
         }
         resource.save()
     }

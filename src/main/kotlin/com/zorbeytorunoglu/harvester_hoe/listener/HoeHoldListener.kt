@@ -1,10 +1,7 @@
-package com.zorbeytorunoglu.harvester_hoe.event.listener
+package com.zorbeytorunoglu.harvester_hoe.listener
 
-import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.enhancement.EnhancementManager
-import com.zorbeytorunoglu.harvester_hoe.enhancement.HoeEvent
-import com.zorbeytorunoglu.harvester_hoe.util.isCustomHoe
-import com.zorbeytorunoglu.harvester_hoe.util.isHoe
+import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
 import com.zorbeytorunoglu.harvester_hoe.util.isHoldingHoe
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

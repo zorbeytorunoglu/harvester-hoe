@@ -3,7 +3,7 @@ package com.zorbeytorunoglu.harvester_hoe.enhancement.enhancements
 import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.AutoSellConfig
 import com.zorbeytorunoglu.harvester_hoe.enhancement.Enhancement
-import com.zorbeytorunoglu.harvester_hoe.enhancement.HoeEvent
+import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
 import com.zorbeytorunoglu.harvester_hoe.enhancement.with
 import org.bukkit.inventory.ItemStack
 

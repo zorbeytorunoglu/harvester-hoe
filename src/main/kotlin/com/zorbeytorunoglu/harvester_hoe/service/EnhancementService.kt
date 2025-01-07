@@ -1,6 +1,7 @@
 package com.zorbeytorunoglu.harvester_hoe.service
 
 import com.zorbeytorunoglu.harvester_hoe.Core
+import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.EnhancementTierConfig
 import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerDataManager
 import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerEnhancementConfig
 import org.bukkit.entity.Player
@@ -48,7 +49,7 @@ class EnhancementService(
     }
 
     fun getEnhancementTierCount(enhancementId: String): Int? =
-        Core.enhancementsConfigManager.get().enhancementTierCount[enhancementId]
+        Core.services.enhancementService.getEnhancementTierCount(enhancementId)
 
     fun upgradeEnhancement(playerUuid: String, enhancementId: String) {
         val currentData = playerDataManager.getPlayerData(playerUuid)
@@ -68,6 +69,16 @@ class EnhancementService(
         val updatedUpgrades = currentData.enhancements.toMutableMap()
         updatedUpgrades[enhancementId] = currentConfig.copy(tier = level)
         playerDataManager.updatePlayerData(playerUuid, currentData.copy(enhancements = updatedUpgrades))
+    }
+
+    fun hasEnhancement(playerUuid: String, enhancementId: String): Boolean =
+        getEnhancements(playerUuid).any { it.key == enhancementId }
+
+    fun isEnhancementEnabled(playerUuid: String, enhancementId: String): Boolean =
+        getEnabledEnhancements(playerUuid).any { it == enhancementId }
+
+    fun <T: EnhancementTierConfig> getTier(playerUuid: String, enhancementId: String): T {
+        getEnhancementLevel(playerUuid = playerUuid, enhancementId = enhancementId)
     }
 
 }

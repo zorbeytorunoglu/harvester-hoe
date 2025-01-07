@@ -1,18 +1,17 @@
 package com.zorbeytorunoglu.harvester_hoe.enhancement.enhancements
 
 import com.zorbeytorunoglu.harvester_hoe.Core
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.TieredEnhancement
+import com.zorbeytorunoglu.harvester_hoe.enhancement.TieredEnhancement
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.BackpackConfig
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.BackpackTier
-import com.zorbeytorunoglu.harvester_hoe.enhancement.HoeEvent
+import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
 import com.zorbeytorunoglu.harvester_hoe.enhancement.with
-import com.zorbeytorunoglu.harvester_hoe.util.colorHex
 
-private const val ENHANCEMENT_ID = "backpack"
+const val BACKPACK_ENHANCEMENT_ID = "backpack"
 
 class BackpackEnhancement: TieredEnhancement<BackpackTier, BackpackConfig> {
 
-    override val id: String = ENHANCEMENT_ID
+    override val id: String = BACKPACK_ENHANCEMENT_ID
     override val config: BackpackConfig = Core.enhancementsConfigManager.get().backpackConfig
     override val name: String = config.name
     override val description: String = config.description

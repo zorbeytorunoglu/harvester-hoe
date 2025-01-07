@@ -57,11 +57,15 @@ object Core {
         enhancementManager = EnhancementManager(plugin).also {
             it.registerEnhancements(
                 listOf(
-                    SpeedBoostEnhancement(),
-                    HasteEnhancement(),
                     AutoCollectEnhancement(),
+                    AutoSellEnhancement(),
+                    BackpackEnhancement(),
+                    CoinEnhancement(),
+                    FortuneEnhancement(),
+                    HasteEnhancement(),
+                    KeyFinderEnhancement(),
+                    SpeedBoostEnhancement(),
                     TokenChanceEnhancement(),
-                    AutoSellEnhancement()
                 ).filter { enhancement -> enhancement.config.enabled == true }
             )
         }

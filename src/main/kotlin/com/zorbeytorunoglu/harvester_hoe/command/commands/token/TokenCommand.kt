@@ -18,7 +18,6 @@ internal class TokenCommand: BaseCommand() {
     override fun execute(sender: CommandSender, args: Array<String>): Boolean {
         if (args.isEmpty()) {
             // todo: usage
-            sender.sendMessage("empty args")
             return true
         }
         val subCommand = subCommands[args[0]] ?: return false

@@ -1,19 +1,8 @@
 package com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config
 
-import com.zorbeytorunoglu.harvester_hoe.configuration.Resource
 import com.zorbeytorunoglu.harvester_hoe.configuration.ConfigLoader
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.AutoCollectConfig
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.AutoSellConfig
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.BackpackConfig
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.BackpackTier
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.HasteConfig
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.HasteTier
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.KeyFinderConfig
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.KeyFinderTier
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.SpeedBoostConfig
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.SpeedBoostTier
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.TokenChanceConfig
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.TokenChanceTier
+import com.zorbeytorunoglu.harvester_hoe.configuration.Resource
+import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.*
 import com.zorbeytorunoglu.harvester_hoe.util.colorHex
 import org.bukkit.Material
 
@@ -85,9 +74,6 @@ class EnhancementsConfigLoader: ConfigLoader<EnhancementsConfig> {
                     ?.mapNotNull { Material.valueOf(it) }
                     ?.associateWith { resource.getDouble("auto_sell.price-list.$it", 0.0) } ?: emptyMap()
             ),
-            enhancementTierCount = resource.getKeys(false).associateWith { enhId ->
-                resource.getConfigurationSection("$enhId.tiers")?.getKeys(false)?.size ?: 0
-            },
             backpackConfig = BackpackConfig(
                 enabled = resource.getBoolean("backpack.enabled", true),
                 name = (resource.getString("backpack.name") ?: "Auto Sell").colorHex,
@@ -113,13 +99,62 @@ class EnhancementsConfigLoader: ConfigLoader<EnhancementsConfig> {
                 description = (resource.getString("key_finder.description") ?: "Finds keys!").colorHex,
                 messageEnabled = resource.getBoolean("key_finder.message-enabled", true),
                 message = (resource.getString("key_finder.message") ?: "&aYou found a key!").colorHex,
-                tiers = resource.getConfigurationSection("token_chance.tiers")
+                tiers = resource.getConfigurationSection("key_finder.tiers")
                     ?.getKeys(false)
                     ?.mapNotNull { tierKey ->
                         tierKey.toIntOrNull()?.let { tierNumber ->
                             tierNumber to KeyFinderTier(
                                 chance = resource.getDouble("key_finder.tiers.$tierKey.chance", 0.0),
                                 command = resource.getString("key_finder.tiers.$tierKey.command") ?: ""
+                            )
+                        }
+                    }?.toMap() ?: emptyMap()
+            ),
+            coinConfig = CoinConfig(
+                enabled = resource.getBoolean("coin.enabled", true),
+                name = (resource.getString("coin.name") ?: "Coin").colorHex,
+                description = (resource.getString("coin.description") ?: "Gives you coins!").colorHex,
+                messageEnabled = resource.getBoolean("coin.message-enabled", true),
+                message = (resource.getString("coin.message") ?: "&aYou found a coin!").colorHex,
+                tiers = resource.getConfigurationSection("coin.tiers")
+                    ?.getKeys(false)
+                    ?.mapNotNull { tierKey ->
+                        tierKey.toIntOrNull()?.let { tierNumber ->
+                            tierNumber to CoinTier(
+                                chance = resource.getDouble("coin.tiers.$tierKey.chance", 0.0),
+                                command = resource.getString("coin.tiers.$tierKey.command") ?: ""
+                            )
+                        }
+                    }?.toMap() ?: emptyMap()
+            ),
+            fortuneConfig = FortuneConfig(
+                enabled = resource.getBoolean("fortune.enabled", true),
+                name = (resource.getString("fortune.name") ?: "Fortune").colorHex,
+                description = (resource.getString("fortune.description") ?: "Gives you extra canes!").colorHex,
+                messageEnabled = resource.getBoolean("fortune.message-enabled", true),
+                message = (resource.getString("fortune.message") ?: "&aYou got extra %amount% canes because of fortune!").colorHex,
+                tiers = resource.getConfigurationSection("fortune.tiers")
+                    ?.getKeys(false)
+                    ?.mapNotNull { tierKey ->
+                        tierKey.toIntOrNull()?.let { tierNumber ->
+                            tierNumber to FortuneTier(
+                                chance = resource.getDouble("fortune.tiers.$tierKey.chance", 0.0),
+                                amount = resource.getInt("fortune.tiers.$tierKey.amount")
+                            )
+                        }
+                    }?.toMap() ?: emptyMap()
+            ),
+            excavatorConfig = ExcavatorConfig(
+                enabled = resource.getBoolean("excavator.enabled", true),
+                name = (resource.getString("excavator.name") ?: "Excavator").colorHex,
+                description = (resource.getString("excavator.description") ?: "Helps you to farm canes!").colorHex,
+                tiers = resource.getConfigurationSection("excavator.tiers")
+                    ?.getKeys(false)
+                    ?.mapNotNull { tierKey ->
+                        tierKey.toIntOrNull()?.let { tierNumber ->
+                            tierNumber to ExcavatorTier(
+                                radius = resource.getInt("excavator.tiers.$tierKey.radius", 3),
+                                chance = resource.getDouble("excavator.tiers.$tierKey.chance", 0.05),
                             )
                         }
                     }?.toMap() ?: emptyMap()

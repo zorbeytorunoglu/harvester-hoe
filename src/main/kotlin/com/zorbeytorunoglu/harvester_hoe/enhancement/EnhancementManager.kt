@@ -2,9 +2,10 @@ package com.zorbeytorunoglu.harvester_hoe.enhancement
 
 import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.HarvesterHoe
-import com.zorbeytorunoglu.harvester_hoe.event.listener.HarvestBreakListener
-import com.zorbeytorunoglu.harvester_hoe.event.listener.HarvestCollectListener
-import com.zorbeytorunoglu.harvester_hoe.event.listener.HoeHoldListener
+import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
+import com.zorbeytorunoglu.harvester_hoe.listener.HarvestBreakListener
+import com.zorbeytorunoglu.harvester_hoe.listener.HarvestCollectListener
+import com.zorbeytorunoglu.harvester_hoe.listener.HoeHoldListener
 import org.bukkit.event.Listener
 
 class EnhancementManager(

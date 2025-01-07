@@ -1,8 +1,10 @@
 package com.zorbeytorunoglu.harvester_hoe.service
 
+import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerData
 import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerDataManager
 import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerEnhancementConfig
+import com.zorbeytorunoglu.harvester_hoe.enhancement.enhancements.BACKPACK_ENHANCEMENT_ID
 
 class PlayerDataService(
     private val playerDataManager: PlayerDataManager
@@ -20,7 +22,7 @@ class PlayerDataService(
     fun getEnabledEnhancements(uuid: String): List<String> =
         playerDataManager.getPlayerData(uuid).enhancements.filter { it.value.enabled }.keys.toList()
 
-    fun getHarvestsInBackpack(uuid: String): Double =
+    fun getHarvestsInBackpack(uuid: String): Int =
         playerDataManager.getPlayerData(uuid).harvestsInBackpack
 
     private fun updateData(uuid: String, transform: (PlayerData) -> PlayerData) {
@@ -59,10 +61,23 @@ class PlayerDataService(
             data.copy(enhancements = updatedEnhancements)
         }
 
-    fun updateHarvestsInBackpack(uuid: String, amount: Double) =
+    fun updateHarvestsInBackpack(uuid: String, amount: Int) =
         updateData(uuid) { it.copy(harvestsInBackpack = amount) }
 
     fun addHarvestsToBackpack(uuid: String, amount: Int) =
         updateData(uuid) { it.copy(harvestsInBackpack = it.harvestsInBackpack + amount) }
+
+    fun removeHarvestsToBackpack(uuid: String, amount: Int) =
+        updateData(uuid) { it.copy(harvestsInBackpack = it.harvestsInBackpack - amount) }
+
+    fun getXp(uuid: String): Int = playerDataManager.getPlayerData(uuid).xp
+
+    fun addXp(uuid: String, amount: Int) = updateData(uuid) { it.copy(xp = it.xp + amount) }
+
+    fun removeXp(uuid: String, amount: Int) = updateData(uuid) { it.copy(xp = it.xp - amount) }
+
+    fun resetXp(uuid: String) = updateData(uuid) { it.copy(xp = 0) }
+
+    fun setXp(uuid: String, amount: Int) = updateData(uuid) { it.copy(xp = amount) }
 
 }

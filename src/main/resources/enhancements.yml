@@ -71,3 +71,33 @@ key_finder:
     '2':
       chance: 0.1
       command: "key give EXTREME_CHEST %player% 1"
+coin:
+  enabled: true
+  name: Coin Chance
+  description: Chance to get coins from harvest
+  message-enabled: true
+  message: "&aYou found a coin!"
+  tiers:
+    '1':
+      chance: 0.05
+      command: "token give %player% 1"
+    '2':
+      chance: 0.1
+      command: "token give %player% 2"
+    '3':
+      chance: 0.5 # 50%
+      command: "token give %player% 50"
+excavator:
+  enabled: true
+  name: Excavator
+  description: Chance to block a lot of canes at once!
+  tiers:
+    '1':
+      chance: 0.05
+      radius: 3
+    '2':
+      chance: 0.1
+      radius: 4
+    '3':
+      chance: 0.5
+      radius: 5

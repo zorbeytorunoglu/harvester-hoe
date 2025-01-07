@@ -2,23 +2,23 @@ package com.zorbeytorunoglu.harvester_hoe.enhancement.enhancements
 
 import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.enhancement.TieredEnhancement
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.KeyFinderConfig
-import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.KeyFinderTier
+import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.CoinConfig
+import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.CoinTier
 import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
 import com.zorbeytorunoglu.harvester_hoe.enhancement.with
 import com.zorbeytorunoglu.harvester_hoe.util.replacePlayerName
 import org.bukkit.Bukkit
 import kotlin.random.Random
 
-private const val ENHANCEMENT_ID = "key_finder"
+private const val ENHANCEMENT_ID = "coin"
 
-class KeyFinderEnhancement: TieredEnhancement<KeyFinderTier, KeyFinderConfig> {
+class CoinEnhancement: TieredEnhancement<CoinTier, CoinConfig> {
 
     override val id: String = ENHANCEMENT_ID
-    override val config: KeyFinderConfig = Core.enhancementsConfigManager.get().keyFinderConfig
+    override val config: CoinConfig = Core.enhancementsConfigManager.get().coinConfig
     override val name: String = config.name
     override val description: String = config.description
-    override val tiers: Map<Int, KeyFinderTier> = config.tiers
+    override val tiers: Map<Int, CoinTier> = config.tiers
 
     override fun canHandle(event: HoeEvent): Boolean = when (event) {
         is HoeEvent.OnHarvest -> isEnabledForPlayer(event.player)

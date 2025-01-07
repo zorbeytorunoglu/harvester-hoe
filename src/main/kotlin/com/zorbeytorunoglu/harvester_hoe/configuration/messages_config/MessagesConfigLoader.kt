@@ -28,6 +28,14 @@ class MessagesConfigLoader: ConfigLoader<Messages> {
             invalidTierConfig = (resource.getString("invalid-tier-config") ?: "&cInvalid tier config!").colorHex,
             playersEnhancementUpgraded = (resource.getString("players-enhancement-upgraded") ?: "&aYou upgraded %player%'s %enhancement% to %tier%!").colorHex,
             playersEnhancementDowngraded = (resource.getString("players-enhancement-downgraded") ?: "&aYou downgraded %player%'s %enhancement% to %tier%!").colorHex,
+            xpCheck = (resource.getString("xp-check") ?: "&aXP of %player%: %xp%").colorHex,
+            xpSet = (resource.getString("xp-set") ?: "&aYou set the XP of %player% to %amount%.").colorHex,
+            xpAdd = (resource.getString("xp-add") ?: "&aYou added %amount% of XP to %player%. His new xp balance is: %xp-balance%.").colorHex,
+            xpRemove = (resource.getString("xp-remove") ?: "&aYou added %amount% of XP to %player%. His new xp balance is: %xp-balance%.").colorHex,
+            backpackCheck = (resource.getString("backpack-check") ?: "&aBackpack items  of player: %amount%").colorHex,
+            backpackAdd = (resource.getString("backpack-add") ?: "&aYou added %amount% of backpack items to %player%.").colorHex,
+            backpackRemove = (resource.getString("backpack-remove") ?: "&aYou removed %amount% of backpack items from %player%.").colorHex,
+            backpackSet = (resource.getString("backpack-set") ?: "&aYou set the backpack items of %player% to %amount%.").colorHex,
         )
     }
 }

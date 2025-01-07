@@ -4,5 +4,6 @@ data class PlayerData(
     val harvestedBlocks: Map<String, Int> = mapOf(),
     val enhancements: Map<String, PlayerEnhancementConfig> = mapOf(),
     val token: Int = 0,
-    val harvestsInBackpack: Double = 0.0
+    val harvestsInBackpack: Int = 0,
+    val xp: Int = 0
 )

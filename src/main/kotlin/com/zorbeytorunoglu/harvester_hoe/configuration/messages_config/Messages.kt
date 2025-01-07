@@ -21,4 +21,12 @@ data class Messages(
     val invalidTierConfig: String,
     val playersEnhancementUpgraded: String,
     val playersEnhancementDowngraded: String,
+    val xpCheck: String,
+    val xpSet: String,
+    val xpAdd: String,
+    val xpRemove: String,
+    val backpackSet: String,
+    val backpackAdd: String,
+    val backpackRemove: String,
+    val backpackCheck: String
 )

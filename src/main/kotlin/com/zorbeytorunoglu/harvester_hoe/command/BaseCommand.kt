@@ -2,7 +2,7 @@ package com.zorbeytorunoglu.harvester_hoe.command
 
 import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.configuration.messages_config.Messages
-import com.zorbeytorunoglu.harvester_hoe.util.colorHex
+import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 
 internal abstract class BaseCommand: Command {
@@ -13,7 +13,7 @@ internal abstract class BaseCommand: Command {
 
     final override fun handleExecute(sender: CommandSender, args: Array<String>): Boolean {
         if (!sender.hasCommandPermission()) {
-            sender.sendMessage("&cYou don't have permission to use this command!".colorHex)
+            sender.sendMessage(messages.noPermission)
             return true
         }
         return execute(sender, args)
@@ -34,3 +34,6 @@ internal abstract class BaseCommand: Command {
     }
 
 }
+
+internal fun Command.playerNameTabCompletion(arg: String): List<String> =
+    Bukkit.getServer().onlinePlayers.map { it.name }.filter { it.startsWith(arg, ignoreCase = true) }

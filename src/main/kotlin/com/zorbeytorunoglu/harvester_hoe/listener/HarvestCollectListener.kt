@@ -1,7 +1,7 @@
-package com.zorbeytorunoglu.harvester_hoe.event.listener
+package com.zorbeytorunoglu.harvester_hoe.listener
 
 import com.zorbeytorunoglu.harvester_hoe.enhancement.EnhancementManager
-import com.zorbeytorunoglu.harvester_hoe.enhancement.HoeEvent
+import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
 import com.zorbeytorunoglu.harvester_hoe.util.isHarvestMaterial
 import com.zorbeytorunoglu.harvester_hoe.util.isHoldingHoe
 import com.zorbeytorunoglu.harvester_hoe.util.runTaskLater

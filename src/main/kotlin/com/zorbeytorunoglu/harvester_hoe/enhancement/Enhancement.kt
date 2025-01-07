@@ -2,6 +2,7 @@ package com.zorbeytorunoglu.harvester_hoe.enhancement
 
 import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.EnhancementConfig
+import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
 import org.bukkit.entity.Player
 
 interface Enhancement {

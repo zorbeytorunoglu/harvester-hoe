@@ -2,14 +2,14 @@ package com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enha
 
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.TieredEnhancementConfig
 
-data class SpeedBoostConfig(
+data class ExcavatorConfig(
     override val enabled: Boolean,
     override val name: String,
     override val description: String,
-    override val tiers: Map<Int, SpeedBoostTier>
-): TieredEnhancementConfig<SpeedBoostTier>
+    override val tiers: Map<Int, ExcavatorTier>
+): TieredEnhancementConfig<ExcavatorTier>
 
-data class SpeedBoostTier(
-    val duration: Int,
-    val level: Int
+data class ExcavatorTier(
+    val radius: Int,
+    val chance: Double
 )
