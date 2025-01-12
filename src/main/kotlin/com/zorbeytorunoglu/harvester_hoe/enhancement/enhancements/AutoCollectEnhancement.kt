@@ -11,11 +11,11 @@ import org.bukkit.entity.Player
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.inventory.ItemStack
 
-private const val ENHANCEMENT_ID = "auto_collect"
+const val AUTO_COLLECT_ENHANCEMENT_ID = "auto_collect"
 
 class AutoCollectEnhancement: Enhancement {
 
-    override val id: String = ENHANCEMENT_ID
+    override val id: String = AUTO_COLLECT_ENHANCEMENT_ID
     override val config: AutoCollectConfig = Core.enhancementsConfigManager.get().autoCollectConfig
     override val name: String = config.name
     override val description: String = config.description

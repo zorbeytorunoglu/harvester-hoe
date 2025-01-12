@@ -9,11 +9,11 @@ import com.zorbeytorunoglu.harvester_hoe.enhancement.with
 import org.bukkit.inventory.ItemStack
 import kotlin.random.Random
 
-private const val ENHANCEMENT_ID = "fortune"
+const val FORTUNE_ENHANCEMENT_ID = "fortune"
 
-class FortuneEnhancement: TieredEnhancement<FortuneTier, FortuneConfig> {
+class FortuneEnhancement: TieredEnhancement<FortuneTier> {
 
-    override val id: String = ENHANCEMENT_ID
+    override val id: String = FORTUNE_ENHANCEMENT_ID
     override val config: FortuneConfig = Core.enhancementsConfigManager.get().fortuneConfig
     override val name: String = config.name
     override val description: String = config.description

@@ -8,12 +8,12 @@ import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
-private const val ENHANCEMENT_ID = "haste"
+const val HASTE_ENHANCEMENT_ID = "haste"
 
-class HasteEnhancement: TieredEnhancement<HasteTier, HasteConfig> {
+class HasteEnhancement: TieredEnhancement<HasteTier> {
 
     override val id: String
-        get() = ENHANCEMENT_ID
+        get() = HASTE_ENHANCEMENT_ID
     override val config: HasteConfig
         get() = Core.enhancementsConfigManager.get().hasteConfig
     override val name: String

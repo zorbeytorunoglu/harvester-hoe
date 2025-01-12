@@ -10,11 +10,11 @@ import com.zorbeytorunoglu.harvester_hoe.util.replacePlayerName
 import org.bukkit.Bukkit
 import kotlin.random.Random
 
-private const val ENHANCEMENT_ID = "coin"
+const val COIN_ENHANCEMENT_ID = "coin"
 
-class CoinEnhancement: TieredEnhancement<CoinTier, CoinConfig> {
+class CoinEnhancement: TieredEnhancement<CoinTier> {
 
-    override val id: String = ENHANCEMENT_ID
+    override val id: String = COIN_ENHANCEMENT_ID
     override val config: CoinConfig = Core.enhancementsConfigManager.get().coinConfig
     override val name: String = config.name
     override val description: String = config.description

@@ -1,5 +1,6 @@
 package com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements
 
+import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.EnhancementTierConfig
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.TieredEnhancementConfig
 
 data class FortuneConfig(
@@ -14,4 +15,4 @@ data class FortuneConfig(
 data class FortuneTier(
     val chance: Double,
     val amount: Int
-)
+): EnhancementTierConfig

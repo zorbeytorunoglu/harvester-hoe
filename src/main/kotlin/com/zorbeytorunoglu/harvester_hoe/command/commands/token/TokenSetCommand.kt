@@ -28,7 +28,7 @@ internal class TokenSetCommand: BaseCommand() {
             return true
         }
 
-        Core.playerDataManager.tokenService.setTokens(player.uniqueId.toString(), amount)
+        Core.services.tokenService.setTokens(player.uniqueId.toString(), amount)
 
         sender.sendMessage(
             messages.tokenSet

@@ -7,11 +7,11 @@ import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
 import com.zorbeytorunoglu.harvester_hoe.enhancement.with
 import org.bukkit.inventory.ItemStack
 
-private const val ENHANCEMENT_ID = "auto_sell"
+const val AUTO_SELL_ENHANCEMENT_ID = "auto_sell"
 
 class AutoSellEnhancement: Enhancement {
 
-    override val id: String = ENHANCEMENT_ID
+    override val id: String = AUTO_SELL_ENHANCEMENT_ID
     override val config: AutoSellConfig = Core.enhancementsConfigManager.get().autoSellConfig
     override val name: String = config.name
     override val description: String = config.description

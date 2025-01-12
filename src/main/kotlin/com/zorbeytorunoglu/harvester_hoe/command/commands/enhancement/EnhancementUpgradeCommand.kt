@@ -34,7 +34,7 @@ internal class EnhancementUpgradeCommand: BaseCommand() {
 
         val playerTier = Core.services.enhancementService.getEnhancementLevel(player, enhancementId)
 
-        val tierCount = Core.services.enhancementService.getEnhancementTierCount(enhancementId) ?: run {
+        val tierCount = Core.services.enhancementService.getMaxEnhancementTierLevel(enhancementId) ?: run {
             sender.sendMessage(messages.invalidTierConfig)
             return true
         }

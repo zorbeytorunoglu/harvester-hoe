@@ -1,5 +1,6 @@
 package com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements
 
+import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.EnhancementTierConfig
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.TieredEnhancementConfig
 
 data class BackpackConfig(
@@ -13,4 +14,4 @@ data class BackpackConfig(
 
 data class BackpackTier(
     val size: Int
-)
+): EnhancementTierConfig

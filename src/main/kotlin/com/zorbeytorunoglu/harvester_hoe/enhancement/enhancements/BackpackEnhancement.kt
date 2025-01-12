@@ -9,7 +9,7 @@ import com.zorbeytorunoglu.harvester_hoe.enhancement.with
 
 const val BACKPACK_ENHANCEMENT_ID = "backpack"
 
-class BackpackEnhancement: TieredEnhancement<BackpackTier, BackpackConfig> {
+class BackpackEnhancement: TieredEnhancement<BackpackTier> {
 
     override val id: String = BACKPACK_ENHANCEMENT_ID
     override val config: BackpackConfig = Core.enhancementsConfigManager.get().backpackConfig

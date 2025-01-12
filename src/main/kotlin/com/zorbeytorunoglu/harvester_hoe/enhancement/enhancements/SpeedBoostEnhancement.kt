@@ -8,12 +8,12 @@ import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
-private const val ENHANCEMENT_ID = "speed_boost"
+const val SPEED_BOOST_ENHANCEMENT_ID = "speed_boost"
 
-class SpeedBoostEnhancement: TieredEnhancement<SpeedBoostTier, SpeedBoostConfig> {
+class SpeedBoostEnhancement: TieredEnhancement<SpeedBoostTier> {
 
     override val id: String
-        get() = ENHANCEMENT_ID
+        get() = SPEED_BOOST_ENHANCEMENT_ID
     override val config: SpeedBoostConfig
         get() = Core.enhancementsConfigManager.get().speedBoostConfig
     override val name: String

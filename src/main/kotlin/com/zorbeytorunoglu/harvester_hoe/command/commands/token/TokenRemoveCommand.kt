@@ -28,7 +28,7 @@ internal class TokenRemoveCommand: BaseCommand() {
             return true
         }
 
-        Core.playerDataManager.tokenService.takeTokens(player, amount)
+        Core.services.tokenService.takeTokens(player, amount)
 
         sender.sendMessage(
             messages.tokenRemoved

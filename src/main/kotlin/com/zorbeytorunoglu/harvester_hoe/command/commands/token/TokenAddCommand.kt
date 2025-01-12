@@ -28,7 +28,7 @@ internal class TokenAddCommand: BaseCommand() {
             return true
         }
 
-        Core.playerDataManager.tokenService.giveTokens(player, amount)
+        Core.services.tokenService.giveTokens(player, amount)
 
         sender.sendMessage(messages.tokenAdded
             .replaceAmount(amount)

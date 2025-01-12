@@ -1,5 +1,6 @@
 package com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements
 
+import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.EnhancementTierConfig
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.TieredEnhancementConfig
 
 data class ExcavatorConfig(
@@ -12,4 +13,4 @@ data class ExcavatorConfig(
 data class ExcavatorTier(
     val radius: Int,
     val chance: Double
-)
+): EnhancementTierConfig

@@ -2,6 +2,7 @@ package com.zorbeytorunoglu.harvester_hoe.util
 
 import com.zorbeytorunoglu.harvester_hoe.Core
 import org.bukkit.entity.Player
+import kotlin.random.Random
 
 fun Player.hasEnhancement(enhancementId: String): Boolean {
     return Core.services.enhancementService.hasEnhancement(
@@ -15,3 +16,8 @@ fun Player.hasEnhancementEnabled(enhancementId: String): Boolean =
         playerUuid = uniqueId.toString(),
         enhancementId = enhancementId
     )
+
+internal fun Player.isLucky(chance: Double): Boolean {
+    val randomValue = Random.nextDouble(0.0, 1.0)
+    return if (randomValue < chance) true else false
+}

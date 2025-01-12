@@ -15,10 +15,6 @@ class PlayerDataManager(plugin: Plugin) {
     private val persistence = PlayerDataPersistence()
     private val playerData = mutableMapOf<String, PlayerData>()
 
-    val enhancementService = EnhancementService(this)
-    val tokenService = TokenService(this)
-    val harvestService = HarvestService(this)
-
     fun load() {
         playerData.clear()
         playerData.putAll(persistence.load(resource))

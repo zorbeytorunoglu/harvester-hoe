@@ -4,6 +4,7 @@ import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.EnhancementTierConfig
 import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerDataManager
 import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerEnhancementConfig
+import com.zorbeytorunoglu.harvester_hoe.enhancement.TieredEnhancement
 import org.bukkit.entity.Player
 
 class EnhancementService(
@@ -48,9 +49,6 @@ class EnhancementService(
         playerDataManager.updatePlayerData(playerUuid, currentData.copy(enhancements = updatedEnhancements))
     }
 
-    fun getEnhancementTierCount(enhancementId: String): Int? =
-        Core.services.enhancementService.getEnhancementTierCount(enhancementId)
-
     fun upgradeEnhancement(playerUuid: String, enhancementId: String) {
         val currentData = playerDataManager.getPlayerData(playerUuid)
         val currentConfig = currentData.enhancements[enhancementId] ?: PlayerEnhancementConfig(enabled = true, tier = 1)
@@ -77,8 +75,19 @@ class EnhancementService(
     fun isEnhancementEnabled(playerUuid: String, enhancementId: String): Boolean =
         getEnabledEnhancements(playerUuid).any { it == enhancementId }
 
-    fun <T: EnhancementTierConfig> getTier(playerUuid: String, enhancementId: String): T {
-        getEnhancementLevel(playerUuid = playerUuid, enhancementId = enhancementId)
+    fun getMaxEnhancementTierLevel(enhancementId: String): Int? =
+        (Core.enhancementManager.getEnhancement(enhancementId) as? TieredEnhancement<*>)?.tiers?.size
+
+    fun <T :EnhancementTierConfig> getPlayerTierConfig(playerUuid: String, enhancementId: String): T? {
+        val enhancement = Core.enhancementManager.getEnhancement(enhancementId) ?: return null
+
+        if (enhancement !is TieredEnhancement<*>) return null
+
+        val level = getEnhancementLevel(playerUuid, enhancementId)
+        if (level <= 0) return null
+
+        @Suppress("UNCHECKED_CAST")
+        return (enhancement.tiers[level] as? T)
     }
 
 }

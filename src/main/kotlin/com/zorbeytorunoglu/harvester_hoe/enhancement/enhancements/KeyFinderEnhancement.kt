@@ -10,11 +10,11 @@ import com.zorbeytorunoglu.harvester_hoe.util.replacePlayerName
 import org.bukkit.Bukkit
 import kotlin.random.Random
 
-private const val ENHANCEMENT_ID = "key_finder"
+const val KEY_FINDER_ENHANCEMENT_ID = "key_finder"
 
-class KeyFinderEnhancement: TieredEnhancement<KeyFinderTier, KeyFinderConfig> {
+class KeyFinderEnhancement: TieredEnhancement<KeyFinderTier> {
 
-    override val id: String = ENHANCEMENT_ID
+    override val id: String = KEY_FINDER_ENHANCEMENT_ID
     override val config: KeyFinderConfig = Core.enhancementsConfigManager.get().keyFinderConfig
     override val name: String = config.name
     override val description: String = config.description
