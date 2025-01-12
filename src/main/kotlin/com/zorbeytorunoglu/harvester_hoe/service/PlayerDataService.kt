@@ -1,10 +1,8 @@
 package com.zorbeytorunoglu.harvester_hoe.service
 
-import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerData
 import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerDataManager
 import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerEnhancementConfig
-import com.zorbeytorunoglu.harvester_hoe.enhancement.enhancements.BACKPACK_ENHANCEMENT_ID
 
 class PlayerDataService(
     private val playerDataManager: PlayerDataManager

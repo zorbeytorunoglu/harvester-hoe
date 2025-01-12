@@ -1,6 +1,6 @@
 package com.zorbeytorunoglu.harvester_hoe.service
 
-import com.zorbeytorunoglu.harvester_hoe.hook.VaultHook
+import com.zorbeytorunoglu.harvester_hoe.hook.hooks.VaultHook
 import org.bukkit.entity.Player
 
 class EconomyService(

@@ -18,16 +18,16 @@ object Core {
 
     internal lateinit var plugin: HarvesterHoe
 
-    lateinit var namespacedKey: NamespacedKey
+    internal lateinit var namespacedKey: NamespacedKey
         private set
 
-    lateinit var mainConfigManager: MainConfigManager
+    internal lateinit var mainConfigManager: MainConfigManager
         private set
 
-    lateinit var enhancementsConfigManager: EnhancementsConfigManager
+    internal lateinit var enhancementsConfigManager: EnhancementsConfigManager
         private set
 
-    lateinit var messagesConfigManager: MessagesConfigManager
+    internal lateinit var messagesConfigManager: MessagesConfigManager
         private set
 
     lateinit var playerDataManager: PlayerDataManager
@@ -36,7 +36,7 @@ object Core {
     lateinit var enhancementManager: EnhancementManager
         private set
 
-    lateinit var hookManager: HookManager
+    internal lateinit var hookManager: HookManager
         private set
 
     lateinit var services: Services
@@ -50,7 +50,7 @@ object Core {
         enhancementsConfigManager = EnhancementsConfigManager(plugin).also { it.reload() }
         messagesConfigManager = MessagesConfigManager(plugin).also { it.reload() }
         playerDataManager = PlayerDataManager(plugin).also { it.load() }
-        hookManager = HookManager(plugin).also { it.initHook() }
+        hookManager = HookManager(plugin).also { it.initHooks() }
 
         services = Services(this)
 

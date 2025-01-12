@@ -13,6 +13,7 @@ repositories {
         url = uri("https://repo.papermc.io/repository/maven-public/")
     }
     maven { url = uri("https://jitpack.io") }
+    maven { url = uri("https://repo.extendedclip.com/releases/") }
 }
 
 dependencies {
@@ -20,6 +21,7 @@ dependencies {
     shadow("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+    compileOnly("me.clip:placeholderapi:2.11.6")
 }
 
 kotlin {

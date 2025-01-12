@@ -4,7 +4,7 @@ import com.zorbeytorunoglu.harvester_hoe.Core
 
 class Services(core: Core) {
 
-    val economyService: EconomyService = EconomyService(core.hookManager.vaultHook)
+    val economyService: EconomyService = EconomyService(core.hookManager.hooks)
 
     val harvestService: HarvestService = HarvestService(core.playerDataManager)
 

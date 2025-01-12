@@ -1,13 +1,18 @@
 package com.zorbeytorunoglu.harvester_hoe.hook
 
+import com.zorbeytorunoglu.harvester_hoe.hook.hooks.PAPIHook
+import com.zorbeytorunoglu.harvester_hoe.hook.hooks.VaultHook
 import org.bukkit.plugin.Plugin
 
-class HookManager(plugin: Plugin) {
+internal class HookManager(plugin: Plugin) {
 
-    val vaultHook = VaultHook(plugin)
+    private val hooks = listOf(
+        VaultHook(plugin),
+        PAPIHook(plugin)
+    )
 
-    fun initHook() {
-        vaultHook.hook()
+    fun initHooks() {
+        hooks.filter { it.canHook() }.forEach { it.hook() }
     }
 
 }
