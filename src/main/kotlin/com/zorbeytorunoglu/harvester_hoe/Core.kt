@@ -61,6 +61,7 @@ object Core {
                     AutoSellEnhancement(),
                     BackpackEnhancement(),
                     CoinEnhancement(),
+                    ExcavatorEnhancement(),
                     FortuneEnhancement(),
                     HasteEnhancement(),
                     KeyFinderEnhancement(),
