@@ -1,12 +1,6 @@
 package com.zorbeytorunoglu.harvester_hoe.configuration.player_data
 
 import com.zorbeytorunoglu.harvester_hoe.configuration.Resource
-import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerData
-import com.zorbeytorunoglu.harvester_hoe.service.EnhancementService
-import com.zorbeytorunoglu.harvester_hoe.service.HarvestService
-import com.zorbeytorunoglu.harvester_hoe.service.TokenService
-import org.bukkit.block.Block
-import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 
 class PlayerDataManager(plugin: Plugin) {
@@ -29,5 +23,7 @@ class PlayerDataManager(plugin: Plugin) {
     fun updatePlayerData(uuid: String, updatedData: PlayerData) {
         playerData[uuid] = updatedData
     }
+
+    fun getAllPlayerData(): Map<String, PlayerData> = playerData.toMap()
 
 }
