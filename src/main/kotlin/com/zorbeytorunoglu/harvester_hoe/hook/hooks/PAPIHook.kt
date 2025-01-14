@@ -4,6 +4,7 @@ import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.BackpackTier
 import com.zorbeytorunoglu.harvester_hoe.enhancement.enhancements.BACKPACK_ENHANCEMENT_ID
 import com.zorbeytorunoglu.harvester_hoe.hook.Hook
+import com.zorbeytorunoglu.harvester_hoe.hook.hooks.HHExpansion.PlaceholderHandler.DynamicPlaceholder
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.OfflinePlayer
 import org.bukkit.plugin.Plugin
@@ -44,7 +45,106 @@ private class HHExpansion(private val plugin: Plugin): PlaceholderExpansion() {
                     ?.let { uuid -> handler(uuid) } ?: fallback }.getOrDefault(fallback)
         }
 
+        sealed interface DynamicPlaceholder {
+
+            fun matches(params: String): Boolean
+            fun handle(params: String, player: OfflinePlayer? = null): String?
+
+            class PlayerWithParam(
+                private val prefix: String,
+                private val handler: (String, String) -> String,
+                private val fallback: String = DEFAULT_FALLBACK_VALUE
+            ): DynamicPlaceholder {
+                override fun matches(params: String): Boolean =
+                    params.startsWith(prefix)
+
+                override fun handle(params: String, player: OfflinePlayer?): String? {
+                    if (!matches(params)) return null
+                    val param = params.removePrefix(prefix)
+                    return runCatching {
+                        player?.let { p ->
+                            handler(p.uniqueId.toString(), params)
+                        } ?: fallback
+                    }.getOrDefault(fallback)
+                }
+            }
+
+            class GlobalWithNumber(
+                private val prefix: String,
+                private val handler: (Int) -> String,
+                private val fallback: String = DEFAULT_FALLBACK_VALUE
+            ) : DynamicPlaceholder {
+                override fun matches(params: String): Boolean =
+                    params.startsWith(prefix) && params.removePrefix(prefix).toIntOrNull() != null
+
+                override fun handle(params: String, player: OfflinePlayer?): String? {
+                    if (!matches(params)) return null
+                    val position = params.removePrefix(prefix).toIntOrNull() ?: return fallback
+                    return runCatching {
+                        handler(position)
+                    }.getOrDefault(fallback)
+                }
+            }
+
+            class Pattern(
+                private val regex: Regex,
+                private val handler: (MatchResult) -> String,
+                private val fallback: String = DEFAULT_FALLBACK_VALUE
+            ) : DynamicPlaceholder {
+                override fun matches(params: String): Boolean = regex.matches(params)
+
+                override fun handle(params: String, player: OfflinePlayer?): String? {
+                    val matchResult = regex.matchEntire(params) ?: return null
+                    return runCatching {
+                        handler(matchResult)
+                    }.getOrDefault(fallback)
+                }
+            }
+
+        }
+
     }
+
+    private val dynamicPlaceholders = listOf(
+
+        DynamicPlaceholder.PlayerWithParam(
+            prefix = "player_has_enhancement_",
+            handler = { uuid, enhancementId ->
+                Core.services.enhancementService.hasEnhancement(uuid, enhancementId).toString()
+            }
+        ),
+
+        DynamicPlaceholder.PlayerWithParam(
+            prefix = "player_enhancement_tier_",
+            handler = { uuid, enhancementId ->
+                Core.services.enhancementService.getEnhancementLevel(uuid, enhancementId).toString()
+            }
+        ),
+
+        DynamicPlaceholder.Pattern(
+            regex = "top_harvest_([0-9]+)_name".toRegex(),
+            handler = { matchResult ->
+                val position = matchResult.groupValues[1].toInt()
+                Core.services.playerDataService.getTopHarvesters(limit = position)
+                    .getOrNull(position - 1)
+                    ?.let { (uuid, _) ->
+                        Core.services.playerDataService.getPlayerName(uuid)
+                    } ?: "Nobody"
+            }
+        ),
+
+        DynamicPlaceholder.Pattern(
+            regex = "top_harvest_([0-9]+)_value".toRegex(),
+            handler = { matchResult ->
+                val position = matchResult.groupValues[1].toInt()
+                Core.services.playerDataService.getTopHarvesters(limit = position)
+                    .getOrNull(position - 1)
+                    ?.let { (_, count) -> count.toString() }
+                    ?: "0"
+            }
+        ),
+
+    )
 
     private val placeholderHandlers: Map<String, PlaceholderHandler> = buildMap {
 
@@ -97,10 +197,17 @@ private class HHExpansion(private val plugin: Plugin): PlaceholderExpansion() {
 
     override fun persist(): Boolean = true
 
-    override fun onRequest(player: OfflinePlayer?, params: String): String? =
-        placeholderHandlers[params]?.handle(
-            player = player
-        )
+    override fun onRequest(player: OfflinePlayer?, params: String): String? {
+        placeholderHandlers[params]?.let { handler ->
+            return handler.handle(player)
+        }
+        dynamicPlaceholders.forEach {
+            it.handle(params, player)?.let { result ->
+                return result
+            }
+        }
+        return null
+    }
 
     private fun MutableMap<String, PlaceholderHandler>.putGlobal(
         identifier: String,

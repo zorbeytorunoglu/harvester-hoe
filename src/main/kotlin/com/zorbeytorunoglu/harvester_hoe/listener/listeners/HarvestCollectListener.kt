@@ -1,6 +1,6 @@
-package com.zorbeytorunoglu.harvester_hoe.listener
+package com.zorbeytorunoglu.harvester_hoe.listener.listeners
 
-import com.zorbeytorunoglu.harvester_hoe.enhancement.EnhancementManager
+import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
 import com.zorbeytorunoglu.harvester_hoe.util.isHarvestMaterial
 import com.zorbeytorunoglu.harvester_hoe.util.isHoldingHoe
@@ -10,9 +10,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityPickupItemEvent
 
-class HarvestCollectListener(
-    private val enhancementManager: EnhancementManager
-): Listener {
+class HarvestCollectListener(): Listener {
 
     @EventHandler
     fun onEntityPickupItemEvent(event: EntityPickupItemEvent) {
@@ -21,7 +19,7 @@ class HarvestCollectListener(
 
         if (itemStack.isHarvestMaterial() && player.isHoldingHoe()) {
             runTaskLater(1L) {
-                enhancementManager.dispatchEvent(
+                Core.enhancementManager.dispatchEvent(
                     HoeEvent.OnHarvestCollected(
                         player = player,
                         type = itemStack.type,

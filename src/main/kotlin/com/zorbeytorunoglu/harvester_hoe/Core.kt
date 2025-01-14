@@ -8,6 +8,7 @@ import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerDataMan
 import com.zorbeytorunoglu.harvester_hoe.enhancement.EnhancementManager
 import com.zorbeytorunoglu.harvester_hoe.enhancement.enhancements.*
 import com.zorbeytorunoglu.harvester_hoe.hook.HookManager
+import com.zorbeytorunoglu.harvester_hoe.listener.ListenerManager
 import com.zorbeytorunoglu.harvester_hoe.service.Services
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -70,6 +71,8 @@ object Core {
                 ).filter { enhancement -> enhancement.config.enabled == true }
             )
         }
+
+        ListenerManager(plugin).run { registerListeners() }
 
         registerMainCommand(plugin)
 

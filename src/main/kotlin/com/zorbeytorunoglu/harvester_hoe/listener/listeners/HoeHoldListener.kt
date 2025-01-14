@@ -1,15 +1,13 @@
-package com.zorbeytorunoglu.harvester_hoe.listener
+package com.zorbeytorunoglu.harvester_hoe.listener.listeners
 
-import com.zorbeytorunoglu.harvester_hoe.enhancement.EnhancementManager
+import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
 import com.zorbeytorunoglu.harvester_hoe.util.isHoldingHoe
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerMoveEvent
 
-class HoeHoldListener(
-    private val enhancementManager: EnhancementManager
-): Listener {
+class HoeHoldListener(): Listener {
 
     private val holdingPlayers = mutableSetOf<String>()
 
@@ -22,12 +20,12 @@ class HoeHoldListener(
         fun processHold(holding: Boolean) {
             if (holding) {
                 if (!holdingPlayers.contains(uuid)) {
-                    enhancementManager.dispatchEvent(HoeEvent.OnHold(player))
+                    Core.enhancementManager.dispatchEvent(HoeEvent.OnHold(player))
                     holdingPlayers.add(uuid)
                 }
             } else {
                 if (holdingPlayers.contains(uuid)) {
-                    enhancementManager.dispatchEvent(HoeEvent.OnStoppedHolding(player))
+                    Core.enhancementManager.dispatchEvent(HoeEvent.OnStoppedHolding(player))
                     holdingPlayers.remove(uuid)
                 }
             }

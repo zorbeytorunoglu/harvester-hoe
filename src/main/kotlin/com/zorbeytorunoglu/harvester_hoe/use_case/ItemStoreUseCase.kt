@@ -1,10 +1,11 @@
-package com.zorbeytorunoglu.harvester_hoe.event
+package com.zorbeytorunoglu.harvester_hoe.use_case
 
 import com.zorbeytorunoglu.harvester_hoe.Core
+import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class ItemStoreUseCase(
+internal class ItemStoreUseCase(
     private val player: Player,
     private val items: List<ItemStack>
 ): UseCase {

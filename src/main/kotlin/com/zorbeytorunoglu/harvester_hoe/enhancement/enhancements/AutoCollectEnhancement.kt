@@ -4,7 +4,7 @@ import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.configuration.enhancements_config.enhancements.AutoCollectConfig
 import com.zorbeytorunoglu.harvester_hoe.enhancement.Enhancement
 import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
-import com.zorbeytorunoglu.harvester_hoe.event.ItemStoreUseCase
+import com.zorbeytorunoglu.harvester_hoe.use_case.ItemStoreUseCase
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player

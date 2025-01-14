@@ -36,3 +36,5 @@ internal fun String.replaceToken(token: Int): String = this.replace("%token%", t
 internal fun String.replaceEnhancement(enhancement: String): String = this.replace("%enhancement%", enhancement)
 
 internal fun String.replaceXp(xp: Int): String = this.replace("%xp%", "$xp")
+
+internal fun blank(): String = ""
