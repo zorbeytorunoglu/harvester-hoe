@@ -3,6 +3,7 @@ package com.zorbeytorunoglu.harvester_hoe.service
 import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerData
 import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerDataManager
 import com.zorbeytorunoglu.harvester_hoe.configuration.player_data.PlayerEnhancementConfig
+import com.zorbeytorunoglu.harvester_hoe.util.blank
 
 class PlayerDataService(
     private val playerDataManager: PlayerDataManager
@@ -77,5 +78,20 @@ class PlayerDataService(
     fun resetXp(uuid: String) = updateData(uuid) { it.copy(xp = 0) }
 
     fun setXp(uuid: String, amount: Int) = updateData(uuid) { it.copy(xp = amount) }
+
+    fun setPlayerName(uuid: String, name: String) = updateData(uuid) { it.copy(name = name) }
+
+    fun getPlayerName(uuid: String): String? = playerDataManager.getPlayerData(uuid).name
+
+    fun getTopHarvesters(limit: Int): List<Pair<String, Int>> {
+        return playerDataManager.getAllPlayerData()
+            .map { (_, data) ->
+                val name = data.name ?: blank()
+                val totalHarvests = data.harvestedBlocks.values.sum()
+                name to totalHarvests
+            }
+            .sortedByDescending { (_, count) -> count }
+            .take(limit)
+    }
 
 }
