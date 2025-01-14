@@ -3,9 +3,10 @@ package com.zorbeytorunoglu.harvester_hoe.enhancement
 import com.zorbeytorunoglu.harvester_hoe.Core
 import com.zorbeytorunoglu.harvester_hoe.HarvesterHoe
 import com.zorbeytorunoglu.harvester_hoe.event.HoeEvent
-import com.zorbeytorunoglu.harvester_hoe.listener.HarvestBreakListener
-import com.zorbeytorunoglu.harvester_hoe.listener.HarvestCollectListener
-import com.zorbeytorunoglu.harvester_hoe.listener.HoeHoldListener
+import com.zorbeytorunoglu.harvester_hoe.listener.listeners.HarvestBreakListener
+import com.zorbeytorunoglu.harvester_hoe.listener.listeners.HarvestCollectListener
+import com.zorbeytorunoglu.harvester_hoe.listener.listeners.HoeHoldListener
+import com.zorbeytorunoglu.harvester_hoe.listener.listeners.PlayerJoinListener
 import org.bukkit.event.Listener
 
 class EnhancementManager(
@@ -13,18 +14,6 @@ class EnhancementManager(
 ) {
 
     private val enhancements = mutableMapOf<String, Enhancement>()
-
-    init {
-        registerEvents()
-    }
-
-    private fun registerEvents() {
-        plugin.registerEvents(
-            HarvestBreakListener(this),
-            HoeHoldListener(this),
-            HarvestCollectListener(this)
-        )
-    }
 
     fun getEnabledEnhancements(): List<Enhancement> = enhancements.values.filter { it.config.enabled }
 
@@ -52,12 +41,4 @@ class EnhancementManager(
 
 internal fun dispatchEvent(hoeEvent: HoeEvent) {
     Core.enhancementManager.dispatchEvent(event = hoeEvent)
-}
-
-private fun HarvesterHoe.registerEvents(
-    vararg events: Listener
-) {
-    events.forEach {
-        server.pluginManager.registerEvents(it, this)
-    }
 }
